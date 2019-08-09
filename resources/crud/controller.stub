@@ -1,0 +1,225 @@
+<?php
+/**Envatic Crypto AP
+* Adapted by
+ *Stephen Isaac:  ofuzak@gmail.com>.
+ *Skype: ofuzak
+ *www.evatic.com (Deploy Scripts , Apps , coins in One click)
+ */
+	
+namespace DummyNamespace;
+
+use DummyRootNamespaceHttp\Requests;
+use DummyRootNamespaceHttp\Controllers\Controller;
+
+use DummyRootNamespace{{modelNamespace}}{{modelName}};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
+use Yajra\Datatables\Datatables;
+use JsValidator;
+
+class DummyClass extends Controller
+{
+	
+	
+    /**
+     * Display a listing of the resource. (uses ajax table)
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+		return view('{{viewPath}}{{viewName}}.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+		$this->authorize('create', {{modelName}}::class);
+		{{jsvalidator}}
+		{{relatedModels}}
+        return view('{{viewPath}}{{viewName}}.create',compact('jsvalidator'{{relatedModelsItems}}));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function store(Request $request)
+    {
+		$this->authorize('create', {{modelName}}::class);
+        {{validationRules}}
+        $requestData = $request->all();
+        {{fileSnippet}}
+        {{modelName}}::create($requestData);
+		return response()->json(['status' => 'SUCCESS','message' => __('app.action_ok',['item'=>'{{modelName}}','action'=> __('app.added')])]);
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function show({{modelName}} ${{crudNameSingular}})
+    {
+		
+       // ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
+        return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function edit(Request $request, {{modelName}} ${{crudNameSingular}})
+    {
+		$this->authorize('update', ${{crudNameSingular}});
+        //${{crudNameSingular}} = {{modelName}}::findOrFail($id);
+		//add the jsvalidator
+		{{jsvalidator}}
+		{{relatedModels}}
+        return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}', 'jsvalidator'{{relatedModelsItems}}));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update(Request $request, {{modelName}} ${{crudNameSingular}})
+    {
+		$this->authorize('update', ${{crudNameSingular}});
+        {{validationRules}}
+        $requestData = $request->all();
+        {{fileSnippet}}
+        ${{crudNameSingular}}->update($requestData);
+		return response()->json(['status' => 'SUCCESS','message' => __('app.action_ok',['item'=>'{{modelName}}','action'=> __('app.updated')])]);
+     
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function destroy(Request $request, {{modelName}} ${{crudNameSingular}})
+    {
+		$this->authorize('delete', ${{crudNameSingular}});
+		${{crudNameSingular}}->delete();
+		return response()->json(['status' => 'SUCCESS','message' => __('app.action_ok',['item'=>'{{modelName}}','action'=> __('app.deleted')])]);
+
+    }
+	
+	  /**toggle Item status.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function toggle_status(Request $request, {{modelName}} ${{crudNameSingular}})
+    {
+		$this->authorize('update', ${{crudNameSingular}});
+        //${{crudNameSingular}} = {{modelName}}::findOrFail($id);
+		${{crudNameSingular}}->status = ${{crudNameSingular}}->status  == 0? 1:0;
+		${{crudNameSingular}}->save();
+		$action= ${{crudNameSingular}}->status == 1 ?  __('app.activated'): __('app.deactivated');
+		
+		return response()->json(['status' => 'SUCCESS','message' => __('app.action_ok',['item'=>{{modelName}},'action'=> $action ])]);
+       
+    }
+	
+	/**
+     * Remove the specified resources from storage.
+     *
+     * @param  Request  $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function delete(Request $request)
+    {
+		
+		if(!count($request->ids))
+		return response()->json(['status' => 'SUCCESS','message' => __('app.nothing_selected')]);
+		${{crudName}} = {{modelName}}::findMany($id);
+		foreach (${{crudName}} as ${{crudNameSingular}} ){
+			$this->authorize('delete', ${{crudNameSingular}});
+		}
+        {{modelName}}::destroy($request->ids);
+		return response()->json(['status' => 'SUCCESS','message' => __('app.action_ok',['item'=>'{{modelName}}','action'=> __('app.deleted')])]);
+    }
+	
+	  /**toggle Item status.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function toggle_statuses(Request $request)
+    {
+		if(!count($request->ids))
+		return response()->json(['status' => 'SUCCESS','message' => __('app.nothing_selected')]);
+		${{crudName}} = {{modelName}}::findMany($request->ids);
+		foreach (${{crudName}} as ${{crudNameSingular}} ){
+			$this->authorize('delete', ${{crudNameSingular}});
+		}
+        {{modelName}}::where('status','!=', 3)->whereIn('id', $request->ids)->update(['status'=>$request->status]);
+		$action= $request->status == 1 ?  __('app.activated'): __('app.deactivated');
+		return response()->json(['status' => 'SUCCESS','message' => __('app.action_ok',['item'=>'{{modelName}}','action'=> $action ])]);
+    }
+	
+	/**
+     * Get the Table.
+     *
+     * 
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+	 public function table(){
+		 ${{crudNameSingular}} = {{modelName}}::query();
+		return Datatables::of(${{crudNameSingular}})
+			->rawColumns(['id','status','actions'])
+			->setRowId(function ($item) {
+				return $item->id ;
+			})
+			->editColumn('id', function ($item) {
+				return '<input name="ids[]" class="chkbx" type="checkbox" value="'.$item->id.'"/>';
+			})
+			->editColumn('status', function ($item) {
+				$name = __('app.OFF');
+				$label = 'danger';
+				if($item->status == 1){
+					$name = __('app.ON');;
+					$label = 'success';
+				}
+				return '<a data-table="{{modelName}}" class="ajax_link refresh btn btn-sm btn-'.$label.' btn-block" href="'.route('{{routePrefix}}.{{crudName}}.toggle_status', $item->id).'" data-toggle="tooltip" title="'.__('app.Edit').'">
+							<span class="hidden-xs hidden-sm hidden-md">'.$name.'</span>
+						 </a>';
+	
+			})
+			->addColumn('actions', function ($item) {
+				 return'<a href="'.route('{{routePrefix}}.{{crudName}}.edit', $item->id) .'" title="'.__('app.edit').' {{modelName}}"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> '.__('app.edit').'</button></a>
+				 <form data-table="{{modelName}}"  method="POST" class="ajax_form refresh" action="'.route('{{routePrefix}}.{{crudName}}.destroy' , $item->id) .'" accept-charset="UTF-8" style="display:inline">
+				 '.method_field("DELETE") .'
+				 '.csrf_field() .'
+				 <a  data-title="Please Confirm Delete" data-message="Do your really want to Delete this {{modelName}}? This Action cannot be reversed" data-toggle="modal" href="#confirmDelete" data-target="#confirmDelete"  class="btn btn-danger btn-sm" title="'.__('app.delete').'{{modelName}}" ><i class="fa fa-trash-o" aria-hidden="true"></i> '.__('app.delete').'</a>
+		</form>';
+			}) ->toJson();
+	}
+}

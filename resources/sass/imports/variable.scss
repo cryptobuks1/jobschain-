@@ -1,0 +1,60 @@
+// Custom Variables
+/*Theme Colors*/
+
+$themecolor: #2962FF;
+$themecolor-dark: #028ee1;
+$themecolor-alt: #26c6da;
+$theme-light:#fff;
+$theme-dark:#212529;
+$skin1:#2962FF;
+$skin2:#fe5419;
+$skin3:#00b0ff;
+$skin4:#6659f7;
+$skin5:#233242;
+$skin6:#fff;
+/*Topbar Colors*/
+
+$topbar:$theme-light;
+$topbar-height:64px;
+$topbar-navlink-padding:0px 15px;
+$topbar-navlink-font-size:0.875rem;
+$topbar-navlink-height:64px;
+$topbar-navbrand-padding:0 10px 0 10px;
+/*Sidebar Colors*/
+
+$sidebar: $theme-light;
+$sidebar-alt:#e8eff0;
+$sidebar-text: #fff;
+$sidebar-icons: #fff;
+$sidebar-text-dark: #2b2b2b;
+$sidebar-icons-dark: #4F5467;
+$sidebar-width-full:250px;
+$sidebar-width-iconbar:180px;
+$sidebar-width-mini:65px;
+/*Boxed layout width*/
+
+$boxed-width:1200px;
+/*Shadow*/
+
+$shadow:1px 0px 20px rgba(0, 0, 0, 0.08);
+/*transitions*/
+
+$transitions:0.2s ease-in;
+/*Dark transparent bg*/
+
+$transparent-dark-bg:rgba(0, 0, 0, 0.03); 
+$lft:left;
+$rgt:right;
+$card-alt:#e4e9ef;
+%square {
+    border-radius: 0px
+}
+
+%rotate45 {
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+}
+

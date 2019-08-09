@@ -1,0 +1,75 @@
+{
+	"fields": [{
+		"name": "user_id",
+		"type": "integer|unsigned|nullable"
+	}, {
+		"name": "balance_id",
+		"type": "integer|unsigned|nullable"
+	}, {
+		"name": "symbol",
+		"type": "string:10"
+	}, {
+		"name": "txid",
+		"type": "string:300"
+	}, {
+		"name": "address",
+		"type": "string:42|nullable"
+	}, {
+		"name": "scriptPubKey",
+		"type": "string:300"
+	}, {
+		"name": "amount",
+		"type": "decimal:32,8"
+	}, {
+		"name": "satoshis",
+		"type": "string:60"
+	}, {
+		"name": "height",
+		"type": "string:60"
+	}, {
+		"name": "confirmations",
+		"type": "string:32"
+	}, {
+		"name": "status",
+		"type": "tinyint|default:0"
+	}],
+	"relationships": [{
+		"name": "user",
+		"type": "belongsTo",
+		"class": "App\\Models\\User|user_id|id"
+	}, {
+		"name": "order",
+		"type": "belongsTo",
+		"class": "App\\Models\\Order|order_id|id"
+	}, {
+		"name": "balance",
+		"type": "belongsTo",
+		"class": "App\\Models\\Balance|balance_id|id"
+	}],
+	"foreign_keys": [{
+		"column": "user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	}, {
+		"column": "order_id",
+		"references": "id",
+		"on": "orders",
+		"onDelete": "cascade"
+	}, {
+		"column": "balance_id",
+		"references": "id",
+		"on": "balances",
+		"onDelete": "cascade"
+	}],
+	"validations": [{
+		"field": "user_id",
+		"rules": "required|numeric|exits:users,id"
+	}, {
+		"field": "balance_id",
+		"rules": "required|numeric|exits:balances,id"
+	}, {
+		"field": "symbol",
+		"rules": "required|string"
+	}]
+}

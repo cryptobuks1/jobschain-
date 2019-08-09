@@ -1,0 +1,67 @@
+
+{
+	"fields": [{
+		"name": "user_id",
+		"type": "integer|unsigned"
+	},{
+		"name": "from_user_id",
+		"type": "integer|unsigned"
+	},{
+		"name": "from_address",
+		"type": "integer|unsigned"
+	},{
+		"name": "from_publicKey",
+		"type": "string:100|nullable"
+	},{
+		"name": "to_address",
+		"type": "integer|unsigned"
+	},{
+		"name": "to_publicKey",
+		"type": "string:100|nullable"
+	},{
+		"name": "subject",
+		"type": "string:100|nullable"
+	},{
+		"name": "encrypted",
+		"type": "text|nullable"
+	},{
+		"name": "un_encrypted",
+		"type": "text"
+	},{
+		"name": "txid",
+		"type": "string:42|nullable"
+	},{
+		"name": "status",
+		"type": "boolean|defaul:true"
+	}],
+	"relationships": [{
+		"name": "recipient",
+		"type": "belongsTo",
+		"class": "App\\Models\\User|user_id|id"
+	},{
+		"name": "sender",
+		"type": "belongsTo",
+		"class": "App\\Models\\User|from_user_id|id"
+	}],
+	"foreign_keys": [{
+		"column": "user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	},{
+		"column": "from_user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	}],
+	"validations": [{
+		"field": "address",
+		"rules": "required|string"
+	}, {
+		"field": "Subject",
+		"rules": "required|string"
+	}, {
+		"field": "message",
+		"rules": "required|string"
+	}]
+}

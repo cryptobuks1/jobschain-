@@ -1,0 +1,35 @@
+.currency {
+	transform: translate(0);
+	z-index: 1;
+}
+.tx-none {
+	text-decoration: none;
+}
+tx-anim {
+	transition: all .4s;
+	cursor: pointer;
+}
+.text-light:hover,  .text-light:focus,  .text-light:active {
+	color: #5d6d7d;
+}
+.text-light {
+	color: #758698;
+}
+.roboto {
+	font-family: "Roboto", sans-serif;
+	transition: all .2s;
+}
+.drop-down {
+	top: calc(100% + 10px);
+	left: 50%;
+	transform: translateX(-50%);
+	box-shadow: 0px 0 35px 0px rgba(0,0,0,0.2);
+}
+.drop-down > ul li {
+	border-bottom: 1px solid rgba(230,239,251,0.3);
+}
+.drop-down > ul li a {
+	text-align: left;
+	white-space: nowrap;
+	color: #495463;
+}

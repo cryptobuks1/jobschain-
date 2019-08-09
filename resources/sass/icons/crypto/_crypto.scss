@@ -1,0 +1,116 @@
+
+
+@font-face {
+  font-family: "Crypto";
+  src: url("./cr.eot");
+  src: url("./cr.eot?#iefix") format("embedded-opentype"),
+       url("./cr.woff") format("woff"),
+       url("./cr.ttf") format("truetype"),
+       url("./cr.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Crypto";
+    src: url("./cr.svg#Flaticon") format("svg");
+  }
+}
+
+.cr:before{
+	display: inline-block;
+	font-family: "Crypto";
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	line-height: 1;
+	text-decoration: inherit;
+	text-rendering: optimizeLegibility;
+	text-transform: none;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
+
+.cr-chat:before { content: "\f100"; }
+.cr-bitcoin-17:before { content: "\f101"; }
+.cr-network-1:before { content: "\f102"; }
+.cr-bitcoin-16:before { content: "\f103"; }
+.cr-bank:before { content: "\f104"; }
+.cr-pin:before { content: "\f105"; }
+.cr-key:before { content: "\f106"; }
+.cr-bitcoin-15:before { content: "\f107"; }
+.cr-bitcoin-14:before { content: "\f108"; }
+.cr-bitcoin-13:before { content: "\f109"; }
+.cr-bitcoin-12:before { content: "\f10a"; }
+.cr-bitcoin-11:before { content: "\f10b"; }
+.cr-mining-3:before { content: "\f10c"; }
+.cr-wallet:before { content: "\f10d"; }
+.cr-network:before { content: "\f10e"; }
+.cr-bitcoin-10:before { content: "\f10f"; }
+.cr-invoice:before { content: "\f110"; }
+.cr-price-tag:before { content: "\f111"; }
+.cr-bitcoin-9:before { content: "\f112"; }
+.cr-bitcoin-8:before { content: "\f113"; }
+.cr-bitcoin-7:before { content: "\f114"; }
+.cr-search:before { content: "\f115"; }
+.cr-shopping-bag:before { content: "\f116"; }
+.cr-shopping-cart:before { content: "\f117"; }
+.cr-padlock:before { content: "\f118"; }
+.cr-bitcoin-6:before { content: "\f119"; }
+.cr-safebox:before { content: "\f11a"; }
+.cr-bitcoin-5:before { content: "\f11b"; }
+.cr-exchange:before { content: "\f11c"; }
+.cr-piggy-bank:before { content: "\f11d"; }
+.cr-growth:before { content: "\f11e"; }
+.cr-bitcoin-4:before { content: "\f11f"; }
+.cr-mining-2:before { content: "\f120"; }
+.cr-mining-1:before { content: "\f121"; }
+.cr-bitcoin-3:before { content: "\f122"; }
+.cr-bitcoin-2:before { content: "\f123"; }
+.cr-mining:before { content: "\f124"; }
+.cr-security:before { content: "\f125"; }
+.cr-bitcoin-1:before { content: "\f126"; }
+.cr-bitcoin:before { content: "\f127"; }
+
+$font-cr-chat: "\f100";
+$font-cr-bitcoin-17: "\f101";
+$font-cr-network-1: "\f102";
+$font-cr-bitcoin-16: "\f103";
+$font-cr-bank: "\f104";
+$font-cr-pin: "\f105";
+$font-cr-key: "\f106";
+$font-cr-bitcoin-15: "\f107";
+$font-cr-bitcoin-14: "\f108";
+$font-cr-bitcoin-13: "\f109";
+$font-cr-bitcoin-12: "\f10a";
+$font-cr-bitcoin-11: "\f10b";
+$font-cr-mining-3: "\f10c";
+$font-cr-wallet: "\f10d";
+$font-cr-network: "\f10e";
+$font-cr-bitcoin-10: "\f10f";
+$font-cr-invoice: "\f110";
+$font-cr-price-tag: "\f111";
+$font-cr-bitcoin-9: "\f112";
+$font-cr-bitcoin-8: "\f113";
+$font-cr-bitcoin-7: "\f114";
+$font-cr-search: "\f115";
+$font-cr-shopping-bag: "\f116";
+$font-cr-shopping-cart: "\f117";
+$font-cr-padlock: "\f118";
+$font-cr-bitcoin-6: "\f119";
+$font-cr-safebox: "\f11a";
+$font-cr-bitcoin-5: "\f11b";
+$font-cr-exchange: "\f11c";
+$font-cr-piggy-bank: "\f11d";
+$font-cr-growth: "\f11e";
+$font-cr-bitcoin-4: "\f11f";
+$font-cr-mining-2: "\f120";
+$font-cr-mining-1: "\f121";
+$font-cr-bitcoin-3: "\f122";
+$font-cr-bitcoin-2: "\f123";
+$font-cr-mining: "\f124";
+$font-cr-security: "\f125";
+$font-cr-bitcoin-1: "\f126";
+$font-cr-bitcoin: "\f127";

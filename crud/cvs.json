@@ -1,0 +1,81 @@
+{
+	"fields": [{
+		"name": "user_id",
+		"type": "bigint|unsigned|nullable"
+	}, {
+		"name": "address",
+		"type": "string:40|nuallble"
+	}, {
+		"name": "publickey",
+		"type": "string:160|nuallble"
+	}, {
+		"name": "qualifications",
+		"type": "string:160|nullable"
+	}, {
+		"name": "country", 
+		"type": "string:6|nullable"
+	}, {
+		"name": "location",
+		"type": "string:160|nullable"
+	}, {
+		"name": "description",
+		"type": "string:300"
+	},{
+		"name": "salary",
+		"type": "string|60"
+	}, {
+		"name": "expirience",
+		"type": "tinyint|default:0"
+	}, {
+		"name": "type",
+		"type": "select|default:fulltime",
+		"options":{
+			"full_time" : "Full Time",
+			"part_time" : "Part Time" ,   
+			"freelance" : "Freelance" 
+		}
+	}, {
+		"name": "active",
+		"type": "boolean|default:true"
+	}],
+
+	"validations": [{
+		"field": "phones",
+		"rules": "required|string"
+	}, {
+		"field": "address",
+		"rules": "required|string"
+	}, {
+		"field": "qualification",
+		"rules": "required|string"
+	}, {
+		"field": "location",
+		"rules": "required|nullable"
+	}, {
+		"field": "country",
+		"rules": "required|nullable"
+	}, {
+		"field": "description",
+		"rules": "required|text"
+	}, {
+		"field": "expirience",
+		"rules": "required|string"
+	}, {
+		"field": "salary",
+		"rules": "nullable|string"
+	}, {
+		"field": "type",
+		"rules": "required|in:full_time,part_time,freelance"
+	}],
+	"relationships": [{
+		"name": "user",
+		"type": "belongsTo",
+		"class": "App\\Models\\User|user_id|id"
+	}],
+	"foreign_keys": [{
+		"column": "user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	}]
+}

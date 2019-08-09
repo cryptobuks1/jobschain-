@@ -1,0 +1,102 @@
+
+	@-webkit-keyframes flash {
+	  10% { background-color: #a9b7c7; }
+	  100% { background-color: inherit; }
+	}
+	
+	@-moz-keyframes flash {
+	  10% { background-color: #a9b7c7; }
+	  100% { background-color: inherit; }
+	}
+	
+	@-o-keyframes flash {
+	  10% { background-color: #a9b7c7; }
+	  100% { background-color: inherit; }
+	}
+	
+	@keyframes flash {
+	  10% { background-color: #a9b7c7; }
+	  100% { background-color: inherit; }
+	}
+	
+	.flash-enter-active, .flash-leave-active {
+	  -webkit-animation: flash 0.8s ease-out 0s;
+	  -moz-animation: flash 0.8s ease-out 0s;
+	  -o-animation: flash 0.8s ease-out 0s;  
+	  animation: flash 0.8s ease-out 0s;
+	}
+
+  
+	@-webkit-keyframes flashgreen {
+	  10% { background-color: #86d277; }
+	  100% { background-color: inherit; }
+	}
+	@-moz-keyframes flashgreen {
+	  10% { background-color: #86d277; }
+	  100% { background-color: inherit; }
+	}
+	@-o-keyframes flashgreen {
+	  10% { background-color: #86d277; }
+	  100% { background-color: inherit; }
+	}	
+	@keyframes flashgreen {
+	  10% { background-color: #86d277; }
+	  100% { background-color: inherit; }
+	}
+	.flashgreen-enter-active, .flashgreen-leave-active {
+	  -webkit-animation: flashgreen 0.8s ease-out 0s;
+	  -moz-animation: flashgreen 0.8s ease-out 0s;
+	  -o-animation: flashgreen 0.8s ease-out 0s;
+	  animation: flashgreen 0.8s ease-out 0s;
+	}  
+
+
+	@-webkit-keyframes flashred {
+	  10% { background-color: #d27777; }
+	  100% { background-color: inherit; }
+	}
+	@-moz-keyframes flashred {
+	10% { background-color: #d27777; }
+	100% { background-color: inherit; }
+	}
+	@-o-keyframes flashred {
+	  10% { background-color: #d27777; }
+	  100% { background-color: inherit; }
+	}	
+	@keyframes flashred {
+	  10% { background-color: #d27777; }
+	  100% { background-color: inherit; }
+	}
+
+	.flashred-enter-active , .flashred-leave-active {
+	  -webkit-animation: flashred 0.8s ease-out 0s;
+	  -moz-animation: flashred 0.8s ease-out 0s;
+	  -o-animation: flashred 0.8s ease-out 0s;  
+	  animation: flashred 0.8s ease-out 0s;
+	}  
+
+
+	@-webkit-keyframes flashblue {
+	  10% { background-color: #0aadef; }
+	  100% { background-color: inherit; }
+	}
+
+	@-moz-keyframes flashblue {
+	  10% { background-color: #0aadef; }
+	  100% { background-color: inherit; }
+	}
+
+	@-o-keyframes flashblue {
+	  10% { background-color: #0aadef; }
+	  100% { background-color: inherit; }
+	}	
+	@keyframes flashblue {
+	  10% { background-color: #0aadef; }
+	  100% { background-color: inherit; }
+	}
+	.flashblue-enter-active , .flashblue-leave-active {
+	  -webkit-animation: flashblue 0.8s ease-out 0s;
+	  -moz-animation: flashblue 0.8s ease-out 0s;
+	  -o-animation: flashblue 0.8s ease-out 0s;    
+	  animation: flashblue 0.8s ease-out 0s;
+	}

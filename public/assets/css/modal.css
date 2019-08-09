@@ -1,0 +1,247 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.modal-dialog {
+    margin: 35px 16px;
+    min-width: 280px
+}
+
+.modal-dialog-bottom {
+    display: flex;
+    align-items: flex-end;
+    min-height: calc(100% - (.5rem * 2))
+}
+
+.modal.fade .modal-dialog-bottom {
+    -webkit-transform: translate(0, 25%);
+    transform: translate(0, 25%)
+}
+
+.modal.show .modal-dialog-bottom {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0)
+}
+
+.modal-content {
+    position: relative;
+    border-radius: 8px;
+    padding: 6px 0;
+    box-shadow: 0px 10px 55px 0px rgba(0,0,0,0.2);
+    border: 0
+}
+
+.modal-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    display: inline-block
+}
+
+.modal-close .ti {
+    font-size: 13px;
+    height: 32px;
+    width: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: #fff;
+    border-radius: 50%;
+    color: #495463;
+    text-shadow: none;
+    display: block;
+    transition: all .4s;
+    box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.3)
+}
+
+.modal .more-tigger {
+    width: 32px;
+    height: 32px
+}
+
+.modal .more-tigger .ti {
+    line-height: 32px
+}
+
+.modal-backdrop {
+    background: #090d1c
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        margin:35px auto
+    }
+
+    .modal-dialog-sm {
+        min-width: 500px
+    }
+
+    .modal-dialog-md {
+        min-width: 90%
+    }
+
+    .modal-dialog-lg {
+        min-width: 540px
+    }
+
+    .modal-dialog-bottom {
+        min-height: calc(100% - (1.75rem * 2))
+    }
+}
+
+@media (min-width: 768px) {
+    .modal-dialog-md {
+        min-width:620px
+    }
+
+    .modal-dialog-lg {
+        min-width: 740px
+    }
+
+    .modal-close {
+        top: -22px;
+        right: -22px
+    }
+
+    .modal-close .ti {
+        font-size: 20px;
+        height: 44px;
+        width: 44px;
+        line-height: 44px
+    }
+}
+
+@media (min-width: 992px) {
+    .modal-dialog-lg {
+        min-width:880px
+    }
+}
+
+.dialog-header {
+    padding: 10px 18px 25px;
+    border-bottom: 1px solid #e6effb
+}
+
+.dialog-body {
+    padding: 15px 20px 16px;
+    font-size: 13px
+}
+
+.dialog-body-in {
+    padding-left: 18px;
+    padding-right: 18px
+}
+
+.dialog-body-full {
+    padding-left: 0;
+    padding-right: 0
+}
+
+.dialog-body-lg {
+    padding: 14px 18px 7px
+}
+
+.dialog-body p {
+    font-weight: 400
+}
+
+.dialog-body .lead strong,.dialog-body .lead span {
+    color: #2d4974
+}
+
+.dialog-body form:last-child {
+    margin-bottom: 0
+}
+
+.dialog-body .copy-address {
+    font-size: 13px
+}
+
+.dialog-title {
+    color: #101a2d;
+    font-weight: 500;
+    padding-right: 40px;
+    margin-bottom: 12px;
+    font-size: 1.3em
+}
+
+.dialog-title .ti {
+    font-size: 70%;
+    color: #6e81a9
+}
+
+.dialog-title small {
+    color: #758698
+}
+
+.dialog-title-action {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: 2px;
+    transform: translateY(-50%)
+}
+
+.dialog-subtitle {
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #6e81a9;
+    letter-spacing: 0.1em;
+    margin-bottom: 0;
+    font-size: 12px;
+    margin-bottom: 10px
+}
+
+.dialog-subtitle-s2 {
+    color: #495463;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500
+}
+
+.dialog-footer {
+    padding: 15px 18px 0
+}
+
+@media (min-width: 480px) {
+    .dialog-title-action {
+        margin-top:0
+    }
+
+    .dialog-header {
+        padding: 30px 40px 25px
+    }
+
+    .dialog-body {
+        padding: 34px 45px 38px
+    }
+
+    .dialog-body-in {
+        padding-left: 40px;
+        padding-right: 40px
+    }
+
+    .dialog-body-lg {
+        padding: 40px 55px
+    }
+
+    .dialog-body-md {
+        padding: 30px 30px 34px
+    }
+
+    .dialog-footer {
+        padding: 30px 40px
+    }
+}
+
+@media (min-width: 768px) {
+    .dialog-body {
+        font-size:14px
+    }
+
+    .dialog-body-lg {
+        padding: 40px 55px
+    }
+
+    .dialog-body .copy-address {
+        font-size: 13px
+    }
+}

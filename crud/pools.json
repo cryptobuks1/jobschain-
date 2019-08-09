@@ -1,0 +1,20 @@
+
+{
+	"fields": [{
+		"name": "user_id",
+		"type": "integer|unsigned"
+	},{
+		"name": "address",
+		"type": "integer|unsigned"
+	},{
+		"name": "status",
+		"type": "boolean|default:false"
+	}],
+	"foreign_keys": [{
+		"column": "user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	}],
+	"validations": []
+}

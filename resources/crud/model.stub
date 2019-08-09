@@ -1,0 +1,44 @@
+<?php
+/**Envatic Crypto APP
+* Adapted by
+ *Stephen Isaac:  ofuzak@gmail.com>.
+ *Skype: ofuzak
+ *www.evatic.com (Deploy Scripts , Apps , coins in One click)
+ */
+namespace DummyNamespace;
+
+use Illuminate\Database\Eloquent\Model;
+//use App\Traits\LoggerTrait;
+//use App\Traits\HasUuid;
+{{useSoftDeletes}}
+class DummyClass extends Model
+{
+    {{softDeletes}}
+	//use LoggerTrait ,HasUuid;
+	/**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '{{table}}';
+
+    {{primaryKey}}
+	
+	/**
+     * Attributes that should be cast to native types.
+     *
+     * @var string
+     */
+    protected $casts = [
+		//'active'=>'boolean'
+	];
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = {{fillable}};
+
+    {{relationships}}
+}

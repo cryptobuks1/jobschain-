@@ -1,0 +1,114 @@
+<?php
+/**Envatic Crypto APP
+* Adapted by
+ *Stephen Isaac:  ofuzak@gmail.com>.
+ *Skype: ofuzak
+ *www.evatic.com (Deploy Scripts , Apps , coins in One click)
+ */
+
+namespace DummyNamespace;
+
+use NamespacedDummyUserModel;
+use NamespacedDummyModel;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class DummyClass
+{
+    use HandlesAuthorization;
+	
+	public function before(DummyUser $user)
+	{
+		if ($user->isAdmin()) {
+			return true;
+		}
+	}
+
+    /**
+     * Determine whether the user can view the DocDummyModel.
+     *
+     * @param  \NamespacedDummyUserModel  $user
+     * @param  \NamespacedDummyModel  $dummyModel
+     * @return mixed
+     */
+    public function view(DummyUser $user, DummyModel $dummyModel)
+    {
+        //
+		if( $user->hasPermission('view.dummyModel'))return true;
+		return true;
+		
+    }
+
+    /**
+     * Determine whether the user can create DocDummyPluralModel.
+     *
+     * @param  \NamespacedDummyUserModel  $user
+     * @return mixed
+     */
+    public function create(DummyUser $user)
+    {
+        //
+		if( $user->hasPermission('create.dummyModel'))return true;
+		return true;
+    }
+
+    /**
+     * Determine whether the user can update the DocDummyModel.
+     *
+     * @param  \NamespacedDummyUserModel  $user
+     * @param  \NamespacedDummyModel  $dummyModel
+     * @return mixed
+     */
+    public function update(DummyUser $user, DummyModel $dummyModel)
+    {
+        //
+		if(!isset($dummyModel->user_id))return true;
+		if( $user->hasPermission('update.dummyModel'))return true;
+		return $user->id == $dummyModel->user_id;
+    }
+
+    /**
+     * Determine whether the user can delete the DocDummyModel.
+     *
+     * @param  \NamespacedDummyUserModel  $user
+     * @param  \NamespacedDummyModel  $dummyModel
+     * @return mixed
+     */
+    public function delete(DummyUser $user, DummyModel $dummyModel)
+    {
+        //
+		if(!isset($dummyModel->user_id))return true;
+		if( $user->hasPermission('delete.dummyModel'))return true;
+		return $user->id == $dummyModel->user_id;
+    }
+
+    /**
+     * Determine whether the user can restore the DocDummyModel.
+     *
+     * @param  \NamespacedDummyUserModel  $user
+     * @param  \NamespacedDummyModel  $dummyModel
+     * @return mixed
+     */
+    public function restore(DummyUser $user, DummyModel $dummyModel)
+    {
+        //
+		if(!isset($dummyModel->user_id))return true;
+		if( $user->hasPermission('restore.dummyModel'))return true;
+		return $user->id == $dummyModel->user_id;
+    }
+
+    /**
+     * Determine whether the user can permanently delete the DocDummyModel.
+     *
+     * @param  \NamespacedDummyUserModel  $user
+     * @param  \NamespacedDummyModel  $dummyModel
+     * @return mixed
+     */
+    public function forceDelete(DummyUser $user, DummyModel $dummyModel)
+    {
+        //
+		if(!isset($dummyModel->user_id))return true;
+		if( $user->hasPermission('forcedelete.dummyModel'))return true;
+		return $user->id == $dummyModel->user_id;
+		
+    }
+}

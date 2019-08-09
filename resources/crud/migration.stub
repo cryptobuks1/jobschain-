@@ -1,0 +1,32 @@
+<?php
+/**Envatic Crypto APP
+* Adapted by
+ *Stephen Isaac:  ofuzak@gmail.com>.
+ *Skype: ofuzak
+ *www.evatic.com (Deploy Scripts , Apps , coins in One click)
+ */
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
+class DummyClass extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        {{schema_up}}
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        {{schema_down}}
+    }
+}

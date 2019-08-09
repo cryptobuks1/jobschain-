@@ -1,0 +1,91 @@
+{
+	"fields": [{
+		"name": "user_id",
+		"type": "integer|nullable|unsigned"
+	}, {
+		"name": "country",
+		"type": "string|8|nullable"
+	}, {
+		"name": "address",
+		"type": "string:40|nullable"
+	}, {
+		"name": "publickey",
+		"type": "string:600|nullable"
+	}, {
+		"name": "company_name",
+		"type": "string:100|nuallble"
+	}, {
+		"name": "title",
+		"type": "string"
+	}, {
+		"name": "qualifications",
+		"type": "string"
+	}, {
+		"name": "description",
+		"type": "string"
+	}, {
+		"name": "expirience",
+		"type": "string|nullable"
+	}, {
+		"name": "count",
+		"type": "integer|unsigned|default:1"
+	}, {
+		"name": "status",
+		"type": "select|default:open",
+		"options":{
+			"open" : "Open",
+			"closed" : "Closed" ,   
+			"filled" : "Filled" 
+		}
+	}, {
+		"name": "active",
+		"type": "boolean|default:true"
+	}],
+
+	"validations": [{
+		"field": "country_id",
+		"rules": "required|numeric|exists:countries,id"
+	}, {
+		"field": "title",
+		"rules": "required|string"
+	}, {
+		"field": "company_name",
+		"rules": "required|string"
+	}, {
+		"field": "qualification",
+		"rules": "required|string"
+	}, {
+		"field": "count",
+		"rules": "required|numeric"
+	}, {
+		"field": "description",
+		"rules": "required|string"
+	}, {
+		"field": "expirience",
+		"rules": "required|numeric"
+	}],
+	"relationships": [{
+		"name": "country",
+		"type": "belongsTo",
+		"class": "App\\Models\\Country|country_id|id"
+	}, {
+		"name": "user",
+		"type": "belongsTo",
+		"class": "App\\Models\\User|user_id|id"
+	}, {
+		"name": "applicants",
+		"type": "belongsToMany",
+		"class": "App\\Models\\Cv|cvs_jobs|job_id|cv_id"
+	}],
+	"foreign_keys": [{
+		"column": "user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	}, {
+		"column": "country_id",
+		"references": "id",
+		"on": "countries",
+		"onDelete": "cascade"
+	}]
+}

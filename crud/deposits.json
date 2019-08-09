@@ -1,0 +1,39 @@
+{
+	"fields": [{
+		"name": "user_id",
+		"type": "integer|unsigned"
+	}, {
+		"name": "amount",
+		"type": "decimal:6,8"
+	}, {
+		"name": "gateway",
+		"type": "string|nullable"
+	}, {
+		"name": "txid",
+		"type": "string"
+	}, {
+		"name": "status",
+		"type": "select|default:complete",
+		"options":{
+			"pending" : "Pending",
+			"rejected" : "Rejected" ,   
+			"complete" : "Complete" 
+		}
+	}, {
+		"name": "active",
+		"type": "boolean|default:true"
+	}],
+
+	"validations": [],
+	"relationships": [{
+		"name": "user",
+		"type": "belongsTo",
+		"class": "App\\Models\\User|user_id|id"
+	}],
+	"foreign_keys": [{
+		"column": "user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	}]
+}

@@ -1,0 +1,34 @@
+{
+	"fields": [{
+		"name": "cv_id",
+		"type": "integer|unsigned"
+	}, {
+		"name": "job_id",
+		"type": "integer|unsigned|nullable"
+	}, {
+		"name": "letter",
+		"type": "string|nullable"
+	},
+
+	"validations": [],
+	"relationships": [ {
+		"name": "cv",
+		"type": "belongsTo",
+		"class": "App\\Models\\Cv|cv_id|id"
+	}, {
+		"name": "job",
+		"type": "belongsTo",
+		"class": "App\\Models\\Job|job_id|id"
+	}],
+	"foreign_keys": [{
+		"column": "cv_id",
+		"references": "id",
+		"on": "cvs",
+		"onDelete": "cascade"
+	}, {
+		"column": "job_id",
+		"references": "id",
+		"on": "jobs",
+		"onDelete": "cascade"
+	}]
+}

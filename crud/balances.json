@@ -1,0 +1,43 @@
+
+{
+	"fields": [{
+		"name": "user_id",
+		"type": "integer|unsigned"
+	}, {
+		"name": "balance",
+		"type": "decimal:16,8"
+	}, {
+		"name": "appkey",
+		"type": "string:1200"
+	}, {
+		"name": "ukey",
+		"type": "string:1200"
+	}, {
+		"name": "symbol",
+		"type": "string:10"
+	}, {
+		"name": "status",
+		"type": "boolean|defaul:true"
+	}],
+	"relationships": [{
+		"name": "user",
+		"type": "belongsTo",
+		"class": "App\\Models\\User|user_id|id"
+	}],
+	"foreign_keys": [{
+		"column": "user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	}],
+	"validations": [{
+		"field": "balances",
+		"rules": "required|numeric"
+	}, {
+		"field": "earned",
+		"rules": "required|numeric"
+	}, {
+		"field": "referral",
+		"rules": "required|numeric"
+	}]
+}

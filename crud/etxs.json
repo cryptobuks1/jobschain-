@@ -1,0 +1,58 @@
+
+{
+	"fields": [{
+		"name": "user_id",
+		"type": "integer|unsigned|nullable"
+	}, {
+		"name": "balance_id",
+		"type": "integer|unsigned|nullable"
+	}, {
+		"name": "symbol",
+		"type": "string:10"
+	}, {
+		"name": "txid",
+		"type": "string:300"
+	}, {
+		"name": "address",
+		"type": "string:42|nullable"
+	}, {
+		"name": "amount",
+		"type": "decimal:32,8"
+	}, {
+		"name": "response",
+		"type": "text|nullable"
+	}, {
+		"name": "status",
+		"type": "tinyint|default:0"
+	}],
+	"relationships": [{
+		"name": "user",
+		"type": "belongsTo",
+		"class": "App\\Models\\User|user_id|id"
+	},{
+		"name": "balance",
+		"type": "belongsTo",
+		"class": "App\\Models\\Balance|user_id|id"
+	}],
+	"foreign_keys": [{
+		"column": "user_id",
+		"references": "id",
+		"on": "users",
+		"onDelete": "cascade"
+	}, {
+		"column": "balance_id",
+		"references": "id",
+		"on": "balances",
+		"onDelete": "cascade"
+	}],
+	"validations": [{
+		"field": "user_id",
+		"rules": "required|numeric|exits:users,id"
+	}, {
+		"field": "balance_id",
+		"rules": "required|numeric|exits:balances,id"
+	}, {
+		"field": "amount",
+		"rules": "required|string"
+	}]
+}
