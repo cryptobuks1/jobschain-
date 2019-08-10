@@ -13,11 +13,20 @@
 |
 */
 
+
+##
+Route::get('/candidates','candController@index')->name('candidates.index');
+Route::get('/jobs','jobsController@create')->name('jobs.create');
+Route::get('/jobs','jobsController@index')->name('jobs.index');
+Route::get('/search','searchController@index')->name('search');
+
 // Homepage Route
 Route::group( [ 'middleware' => [ 'web', 'checkblocked' ] ], function () {
 	Route::get( '/', 'WelcomeController@welcome' )->name( 'welcome' );
 	Route::get( '/privacy-policy', 'WelcomeController@privacy' )->name( 'privacy' );
 	Route::get( '/qrgen.png', 'WelcomeController@qrcode' )->name( 'public.qrgen' );
+
+	
 } );
 
 // Authentication Routes
@@ -138,9 +147,6 @@ Route::resource( 'jobs', 'JobsController', [
 		'create' => 'jobs.create',
 		'store' => 'jobs.store',
 		'show' => 'jobs.show',
-		'edit' => 'jobs.edit',
-		'update' => 'jobs.update',
-		'destroy' => 'jobs.destroy',
 	],
 ] );
 Route::post( 'jobs/table', [ 'as' => 'jobs.table', 'uses' => 'JobsController@table' ] );
