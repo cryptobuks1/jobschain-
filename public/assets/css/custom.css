@@ -716,9 +716,11 @@
     flex: 0 0 350px;
 }
 
+
 .jobs-wrap .job-item.fulltime {
     border-left: 3px solid #28a745;
 }
+
 
 .page-item.active .page-link {
     background-color: #28a745;
