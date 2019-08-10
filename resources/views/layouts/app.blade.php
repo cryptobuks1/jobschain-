@@ -62,7 +62,7 @@
 												<ul class="dropdown arrow-top">
 													<li><a href="{{route('jobs.index')}}">{{__('app.browse_jobs')}}</a>
 													</li>
-													<li><a href="new-post.html">{{__('app.post_a_cv')}}</a>
+													<li><a href="{{'/cvs'}}">{{__('app.post_a_cv')}}</a>
 													</li>
 													<li><a href="#">{{__('app.buy_coin')}}</a>
 													</li>
