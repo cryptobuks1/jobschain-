@@ -138,4 +138,6 @@ return [
     'received' => 'Received',
     'settings' => 'Settings',
     'topup' => 'Topup',
+    'in' => 'Sign in',
+    'up' => 'Sign up',
 ];
