@@ -7,16 +7,16 @@
 				<div class="col-12" data-aos="fade">
 					<p class="slogan">{{__('app.slogan')}}</p>
 					<h1>Search The JobChain</h1>
-					<form action="#">
-						<div class="row mb-3">
+					<form method="GET" action="{{route('search')}}" role="search">
+							<div class="row mb-3">
 							<div class="col-md-9">
 								<div class="row">
 									<div class="col-md-6 mb-3 mb-md-0">
-										<input type="text" class="mr-3 form-control border-0 px-4" placeholder="job title, keywords or company name ">
+										<input name="q"type="text" class="mr-3 form-control border-0 px-4" placeholder="job title, keywords or company name ">
 									</div>
 									<div class="col-md-6 mb-3 mb-md-0">
 										<div class="input-wrap"> <span class="icon icon-room"></span>
-											<input type="text" class="form-control form-control-block search-input  border-0 px-4" id="autocomplete" placeholder="city, province or region" onFocus="geolocate()">
+											<input name="address" type="text" class="form-control form-control-block search-input  border-0 px-4" id="autocomplete" placeholder="city, province or region">
 										</div>
 									</div>
 								</div>
