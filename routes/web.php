@@ -138,9 +138,6 @@ Route::resource( 'jobs', 'JobsController', [
 		'create' => 'jobs.create',
 		'store' => 'jobs.store',
 		'show' => 'jobs.show',
-		'edit' => 'jobs.edit',
-		'update' => 'jobs.update',
-		'destroy' => 'jobs.destroy',
 	],
 ] );
 Route::post( 'jobs/table', [ 'as' => 'jobs.table', 'uses' => 'JobsController@table' ] );
@@ -315,3 +312,5 @@ Route::prefix( 'admin' )->middleware( [
 	Route::post( 'addresses/mass-delete', [ 'as' => 'addresses.massdelete', 'uses' => 'AddressesController@delete' ] );
 	
 } );
+
+//Route::get('/user', 'JobsController@index');

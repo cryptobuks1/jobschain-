@@ -26,7 +26,8 @@
 	<link rel="stylesheet" href ="/assets/css/aos.css">
 	<link rel="stylesheet" href ="/assets/css/style.css"> 
 	<link rel="stylesheet" href ="/assets/css/utilities.css"> 
-	<link rel="stylesheet" href ="/assets/css/custom.css"> 
+	<link rel="stylesheet" href ="/assets/css/custom.css">
+	<link rel="stylesheet" href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css">
 	@stack('css') {!!config('tracking.header_code')!!}
 	<style>
 		@stack('styles')
@@ -75,7 +76,7 @@
 												<ul class="dropdown arrow-top">
 													<li><a href="#">{{__('app.browse_candidates')}}</a>
 													</li>
-													<li><a href="new-post.html">{{__('app.post_a_job')}}</a>
+													<li><a href="{{route('jobs.create')}}">{{__('app.post_a_job')}}</a>
 													</li>
 													<li><a href="#">{{__('app.start_mining')}}</a>
 													</li>

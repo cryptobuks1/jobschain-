@@ -411,6 +411,8 @@ return [
 				$protocolws.'*.pusher.com', 
 				$protocol.'*.google.com/recaptcha/',
 				$protocol.'*.gstatic.com/recaptcha/',
+                $protocol.'maxcdn.bootstrapcdn.com',
+                $protocol.'maxcdn.icons8.com'
             ],
 
             'hashes' => [
@@ -447,6 +449,8 @@ return [
 				$protocol.'cdn.datatables.net',
 				$protocol.'*.bootstrapcdn.com',
 				$protocol.'unpkg.com',
+                $protocol.'maxcdn.bootstrapcdn.com',
+                $protocol.'maxcdn.icons8.com'
             ],
 
             'hashes' => [
@@ -513,6 +517,8 @@ return [
 			'allow' => [
                 $protocol.'fonts.gstatic.com',
 				$protocol.'cdnjs.cloudflare.com',
+                $protocol.'maxcdn.bootstrapcdn.com',
+                $protocol.'maxcdn.icons8.com',
 				'data:'
             ],
             'self' => true,

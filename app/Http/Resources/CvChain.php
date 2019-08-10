@@ -9,7 +9,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Cv extends JsonResource
+class CvChain extends JsonResource
 {
     /**
      * Transform the resource into an array.
