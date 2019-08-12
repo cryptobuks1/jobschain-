@@ -1,0 +1,111 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 08/11/2018 18:33
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .fi-qr-code:before { content: "\f100"; }
+.fi-smartphone:before { content: "\f101"; }
+.fi-laptop:before { content: "\f102"; }
+.fi-mail:before { content: "\f103"; }
+.fi-smartphone-1:before { content: "\f104"; }
+.fi-app:before { content: "\f105"; }
+.fi-learning:before { content: "\f106"; }
+.fi-contract:before { content: "\f107"; }
+.fi-shield:before { content: "\f108"; }
+.fi-operating-system:before { content: "\f109"; }
+.fi-poor:before { content: "\f10a"; }
+.fi-security:before { content: "\f10b"; }
+.fi-smartphone-2:before { content: "\f10c"; }
+.fi-bitcoin:before { content: "\f10d"; }
+.fi-bitcoin-1:before { content: "\f10e"; }
+.fi-bitcoin-2:before { content: "\f10f"; }
+.fi-light-bulb:before { content: "\f110"; }
+.fi-user:before { content: "\f111"; }
+.fi-search:before { content: "\f112"; }
+.fi-success:before { content: "\f113"; }
+.fi-error:before { content: "\f114"; }
+.fi-plus:before { content: "\f115"; }
+.fi-users:before { content: "\f116"; }
+.fi-settings:before { content: "\f117"; }
+.fi-chat:before { content: "\f118"; }
+.fi-envelope:before { content: "\f119"; }
+.fi-shield-1:before { content: "\f11a"; }
+.fi-fingerprint:before { content: "\f11b"; }
+.fi-bitcoin-3:before { content: "\f11c"; }
+.fi-bitcoin-4:before { content: "\f11d"; }
+.fi-bitcoin-5:before { content: "\f11e"; }
+.fi-bitcoin-6:before { content: "\f11f"; }
+.fi-bitcoin-7:before { content: "\f120"; }
+.fi-idea:before { content: "\f121"; }
+.fi-bitcoin-8:before { content: "\f122"; }
+.fi-dice:before { content: "\f123"; }
+    
+    $font-Fi-qr-code: "\f100";
+    $font-Fi-smartphone: "\f101";
+    $font-Fi-laptop: "\f102";
+    $font-Fi-mail: "\f103";
+    $font-Fi-smartphone-1: "\f104";
+    $font-Fi-app: "\f105";
+    $font-Fi-learning: "\f106";
+    $font-Fi-contract: "\f107";
+    $font-Fi-shield: "\f108";
+    $font-Fi-operating-system: "\f109";
+    $font-Fi-poor: "\f10a";
+    $font-Fi-security: "\f10b";
+    $font-Fi-smartphone-2: "\f10c";
+    $font-Fi-bitcoin: "\f10d";
+    $font-Fi-bitcoin-1: "\f10e";
+    $font-Fi-bitcoin-2: "\f10f";
+    $font-Fi-light-bulb: "\f110";
+    $font-Fi-user: "\f111";
+    $font-Fi-search: "\f112";
+    $font-Fi-success: "\f113";
+    $font-Fi-error: "\f114";
+    $font-Fi-plus: "\f115";
+    $font-Fi-users: "\f116";
+    $font-Fi-settings: "\f117";
+    $font-Fi-chat: "\f118";
+    $font-Fi-envelope: "\f119";
+    $font-Fi-shield-1: "\f11a";
+    $font-Fi-fingerprint: "\f11b";
+    $font-Fi-bitcoin-3: "\f11c";
+    $font-Fi-bitcoin-4: "\f11d";
+    $font-Fi-bitcoin-5: "\f11e";
+    $font-Fi-bitcoin-6: "\f11f";
+    $font-Fi-bitcoin-7: "\f120";
+    $font-Fi-idea: "\f121";
+    $font-Fi-bitcoin-8: "\f122";
+    $font-Fi-dice: "\f123";

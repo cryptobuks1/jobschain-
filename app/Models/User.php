@@ -90,7 +90,7 @@ class User extends Authenticatable
 	}
 	
 	public function jobs() {
-		return $this->hasOne( \App\Models\Job::class, 'user_id', 'id' );
+		return $this->hasMany( \App\Models\Job::class, 'user_id', 'id' );
 	}
 	
 	public function cvs() {

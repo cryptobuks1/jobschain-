@@ -10,6 +10,7 @@ import Vue from 'vue'
  */
 
 window.$ = window.jQuery = require('jquery');
+require('../../node_modules/jquery.stellar/jquery.stellar.js');
 require('bootstrap');
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces

@@ -69,13 +69,15 @@ class Job extends Model
     {
         return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
     }
+	
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
     }
-    public function applicants()
+    
+	public function msgs()
     {
-        return $this->belongsToMany(\App\Models\Cv::class, 'cvs_jobs', 'job_id', 'cv_id');
+        return $this->morphMany(\App\Models\Msg::class, 'entity');
     }
     
 }

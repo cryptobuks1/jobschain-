@@ -7,24 +7,18 @@
 require('./bootstrap');
 import VueInternationalization from 'vue-i18n';
 import Locale from './vue-i18n-locales.generated';
-import VueTimeago from 'vue-timeago';
-import SmartTable from 'vuejs-smart-table';
-Vue.use(SmartTable);
+import VueTimeago from 'vue-timeago'
 Vue.use(VueInternationalization); 
-Vue.component( 'balances', require('./components/admin/Balances.vue') ); 
-Vue.component( 'etxs', require('./components/admin/Etxs.vue') ); 
-Vue.component( 'txs', require('./components/admin/Txs.vue') ); 
-Vue.component( 'classics', require('./components/admin/Classics.vue') ); 
-Vue.component( 'redeems', require('./components/admin/Redeems.vue') ); 
-Vue.component( 'wallet', require('./components/admin/Wallet.vue') ); 
+Vue.component( 'auth', require('./components/user/auth.vue') );
+Vue.component( 'wallets', require('./components/user/wallets.vue') );
+Vue.component( 'sidewallet', require('./components/user/sidewallet.vue') );
 import loading from './loading.js';
 import base from './base.js'; 
 import vmodal from 'vue-js-modal';
-import Toasted from 'vue-toasted';
-Vue.use(Toasted, {
-	 iconPack: 'custom-class' ,
-	 theme: 'toasted-primary' 
-})
+import SmartTable from 'vuejs-smart-table';
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+Vue.use(SmartTable);
 Vue.use(vmodal, { dialog: true })
 Vue.directive( 'loading', loading );
 Vue.mixin(base);
@@ -37,7 +31,6 @@ var i18n = new VueInternationalization({
     locale: lang,
     messages: Locale
 });
-
 Vue.use(VueTimeago, {
   name: 'Timeago', // Component name, `Timeago` by default
   locale: lang, 
@@ -51,4 +44,4 @@ const app = new Vue({
 	i18n
 });
 window.vm = app;
-require('./init');
+require('./theme');

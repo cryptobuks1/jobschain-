@@ -20,16 +20,16 @@ class CreateMsgsTable extends Migration
         Schema::create('msgs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('from_user_id')->unsigned();
-            $table->string('from_address')->nullable();
-            $table->string('from_publicKey',300)->nullable();
-            $table->string('to_address')->nullable();
-            $table->string('to_publicKey',300)->nullable();
+            $table->string('user_address')->nullable();
+            $table->string('user_publicKey',300)->nullable();
+            $table->string('other_address')->nullable();
+            $table->string('other_publicKey',300)->nullable();
+            $table->enum('box',['inbox','outbox','drafts','spam'])->nullable();
             $table->string('subject',100)->nullable();
             $table->text('encrypted')->nullable();
             $table->text('un_encrypted');
-            $table->morphs('to');
-            $table->morphs('from');
+            $table->morphs('entity');
+            $table->enum('stream',['cvs','jobs']);
             $table->string('txid',199)->nullable();
             $table->bigInteger('blocktime')->nullable();
 			$table->integer('confirmations')->default(0);
@@ -37,8 +37,7 @@ class CreateMsgsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('from_user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            });
+        });
     }
 
     /**

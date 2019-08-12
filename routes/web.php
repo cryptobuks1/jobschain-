@@ -121,9 +121,6 @@ Route::group( [ 'middleware' => ['web', 'auth', 'activated', 'currentUser', 'act
 		Route::post( '/balance/mnemonic', 'BalancesController@mnemonic' )->name( 'balance.mnemonic' );
 		Route::post( '/user/update', 'BalancesController@updateuser' )->name( 'balance.user' );
 		Route::post( '/user/update/password', 'BalancesController@updatepassword' )->name( 'balance.password' )->middleware( 'pass' );
-		Route::post( '/redemption/address', 'RedeemsController@getRedeem' )->name( 'getredeem' );
-		Route::post( '/redeem', 'RedeemsController@update' )->name( 'update.redeem' );
-
 	} );
 
 
@@ -163,10 +160,6 @@ Route::resource( 'cvs', 'CvsController', [
 	Route::post( 'cvs/toggle-status/{id}', [ 'as' => 'cvs.toggle_status', 'uses' => 'CvsController@toggle_status' ] );
 	Route::post( 'cvs/mass-toggle', [ 'as' => 'cvs.masstoggle', 'uses' => 'CvsController@toggle_statuses' ] );
 	Route::post( 'cvs/mass-delete', [ 'as' => 'cvs.massdelete', 'uses' => 'CvsController@delete' ] );
-
-
-
-
 
 // Registered, activated, and is admin routes.
 Route::prefix( 'admin' )->middleware( [
@@ -232,8 +225,7 @@ Route::prefix( 'admin' )->middleware( [
 	Route::post( 'cvs/toggle-status/{id}', [ 'as' => 'cvs.toggle_status', 'uses' => 'CvsController@toggle_status' ] );
 	Route::post( 'cvs/mass-toggle', [ 'as' => 'cvs.masstoggle', 'uses' => 'CvsController@toggle_statuses' ] );
 	Route::post( 'cvs/mass-delete', [ 'as' => 'cvs.massdelete', 'uses' => 'CvsController@delete' ] );
-	
-	
+
 	##deposits
 	Route::resource( 'deposits', 'DepositsController', [
 		'only' => [ 'index', 'destroy' ],

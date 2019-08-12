@@ -23,13 +23,13 @@ class Balance extends JsonResource
     {
 
 		$unconf =  $this->txs()->where('confirmations','<',3)->sum('amount');
-		$live = $this->livebalance();
         return [
             'id'=>$this->id,
             'user_id'=> $this->user_id,
-            'balance'=> bcmul((string)$live, 1 , 8 ),
+            'balance'=> bcmul((string)$this->balance, 1 , 8 ),
             'symbol'=> $this->symbol,
             'text'=> config('coin.name'),
+            'explorer'=> config('coin.explorer'),
             'status'=> $this->status,
             'address'=> $this->address,
 			'created_at'=> $this->created_at,

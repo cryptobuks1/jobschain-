@@ -1,262 +1,320 @@
 <template>
 	<div>
 		<v-dialog/>
-		<div v-if="!ready||isSaving" :class="" class="page-overlay is-loading">
-			<div class="spinner"><span class="sp sp1"></span><span class="sp sp2"></span><span class="sp sp3"></span></div>
-		</div>
+		<main v-if="!ready" id="content" class="bg-light" role="main">
+			<div class="container">
+				<div class="d-flex justify-content-between pt-5 pb-4"></div>
+			</div>
+			<div class="container mt-5 mb-4">
+				<div class="mb-4">
+					<div class="spinner"><span class="sp sp1"></span><span class="sp sp2"></span><span class="sp sp3"></span></div>
+				</div>
+			</div>
+		</main>
 		<div v-if="ready">
-			<div class="row">
-				<div class="main-content col-lg-8">
-					<div class="d-lg-none"><a href="#" @click.prevent="showSendModal()" class="btn btn-danger btn-xl btn-between w-100 mgb-1-5x">{{$t('wallet.withdraw',{'symbol':balance.symbol})}}<em class="ti ti-arrow-right"></em></a>
-						<div class="ht-10px mgb-0-5x d-lg-none d-none d-sm-block"></div>
+			<main id="content" class="bg-light" role="main">
+				<div class="container">
+					<div class="d-flex justify-content-between pt-5 pb-4"> </div>
+				</div>
+				<div class="container mt-5 mb-4">
+					<div class="mb-4">
+						<div class="card header-bg">
+							<div class="card-body px-sm-4 pb-sm-4 ">
+								<form method="get" action="/search"  autocomplete="off" spellcheck="false">
+									<div class="d-none d-sm-flex align-items-baseline">
+										<h1 class="h5 text-white">Search The JobChain</h1>
+									</div>
+									<div class="input-group input-group-main">
+										<input v-model="filter" id="search" type="text" class="form-control py-3 mb-0" placeholder="Enter / Txhash / Block Hash / Address"  name="q" >
+										<div class="input-group-append">
+											<button class="btn btn-primary" type="submit"> <i class="fa fa-search d-inline-block d-sm-none"></i><span class="d-none d-sm-inline-block"><i class="fa fa-search"></i> Find All</span> </button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
-					<div class="content-area card">
-						<div class="card-body"> 
-							<h5 class="card-title card-title-sm">{{balance.address}}</h5>
-							<div class="token-currency-choose">
-								<div class="token-rate-wrap row d-flex justify-content-center"> <img :src="balance.qr_link" /> 
-								</div>
-								<!-- .row -->
-							</div>
-							
+					<div class="card mb-4">
+						<div class="card-body">
 							<div class="row">
-								<div class="col-md-8">
-									<div class="copy-wrap mgb-0-5x">
-										<span class="copy-feedback"></span><img class="rounded-circle" src="/logicon.png" />
-										<input type="text" class="copy-address" :value="balance.address" disabled="">
-										<button class="copy-trigger copy-clipboard" :data-clipboard-text="balance.address"><em class="ti ti-files"></em></button>
-									</div>
-								</div>
-								<div class="col-md-4 d-flex flex-column justify-content-center">
-									<button :disabled="getAddress" @click.prevent="get_new_address()" class="btn btn-sm btn-primary"><i :class="getAddress?'fa fa-spin fa-cirlce-o-notch':'ti ti-check'" class="mr-2"></i>{{$t('wallet.get_new_address')}}</button>
-								</div>
+								<div class="col-lg-6">
+									<h1> Balance <span class="text-primary">{{user.balance.balance}} {{user.balance.symbol}}</span></h1>
+									<span>Unconfirmed : {{user.balance.unconfirm}} {{user.balance.symbol}} <span class="text-primary">Address</span>:
+									<copy :display-text="user.balance.address"  :copy-item="user.balance.address"></copy>
+									</span> </div>
+								<div class="col-lg-6"><span class="mt-2 float-right"><a href="#" class="mr-3 btn btn-primary" @click.prevent="showQrModal()" ><i class="fa fa-qrcode"></i>Qrcode</a><a href="#" @click.prevent="get_new_address()"  class="mr-3 btn btn-primary"><i :class="getAddress?'fa-refresh fa-spin':'fa-bank'" class="fa"></i>New Address</a><a href="#" @click.prevent="showSendModal()" class="btn btn-primary btn-outline-primary"><i class="fa fa-angle-right"></i>Send JBT</a></span></div>
 							</div>
-							<div class="ht-10px"></div>
-							<ul class="nav nav-tabs nav-tabs-line" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link active show" data-toggle="tab" href="#deposits">{{$t('wallet.deposits')}}</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="#withdrawals">{{$t('wallet.withdrawals')}}</a>
-								</li>
-							</ul>
-							<div class="tab-content">
-								<div  class="tab-pane fade  active show" id="deposits">
-									<div class="has-aside">
-										<h4>{{$t('wallet.deposits')}} {{$t('wallet.history')}}</h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 mb-4 mb-lg-0">
+							<div class="card h-100">
+								<div class="card-header d-flex justify-content-between py-1">
+									<ul class="nav nav-custom nav-borderless nav_tabs1" id="nav_tabs" role="tablist">
+										<li class="nav-item">
+											<a @click.prevent="jobTab='jobs'"  href="#" :class="jobTab=='jobs'?'btn-primary':'btn-outline-primary btn-outline'" class="mt-1 border-0 rounded-0 btn-lg btn align-centre" >Jobs</a>
+										</li>
+										<li class="nav-item"> 
+											<a @click.prevent="jobTab='cvs'" href="#" class="mt-1 border-0 rounded-0 btn-lg btn align-centre" :class="jobTab=='cvs'?'btn-primary':'btn-outline-primary btn-outline'" >Cvs</a> 
+										</li>
+										<li class="nav-item">
+											<a @click.prevent="jobTab='txs'" href="#" class="mt-1 border-0 rounded-0 btn-lg btn align-centre" :class="jobTab=='txs'?'btn-primary':'btn-outline-primary btn-outline'" >Tx In</a>
+										</li>
+										<li class="nav-item"> 
+											<a @click.prevent="jobTab='etxs'" href="#" class="mt-1 border-0 rounded-0 btn-lg btn align-centre" :class="jobTab=='etxs'?'btn-primary':'btn-outline-primary btn-outline'" >Tx Out</a> 
+										</li>
+									</ul>
+								</div>
+								<div v-show="jobTab == 'jobs'" class="js-scrollbar card-body overflow-hidden" style="height: 400px;">
+									<div v-if="user.jobs.length < 1" class="row">
+										<div class="col-sm-12">
+											<h5> You Don't have Any Jobs Posted Yet !</h5>
+										</div>
 									</div>
-									<div class="ht-10px"></div>
-									<div class="row justify-content-between pdb-1x">
-										<div class="col-9 col-sm-6 text-left">
-											<div class="filter">
-												<label>
-													<input type="search" v-model="dfilter" class="form-control form-control-sm" :placeholder="$t('wallet.txid')">
-												</label>
+									<template v-for="job in user.jobs">
+										<div class='row'>
+											<div class='col-sm-4'>
+												<div class='media align-items-sm-center mr-4 mb-1 mb-sm-0'>
+													<div class='d-none d-sm-flex mr-2'><span :class="active==job?'btn-primary':' btn-soft-secondary'" class='btn btn-icon'><span :class="active==job?'':'text-dark'" class='btn-icon__inner'>Job</span></span></div>
+													<div class='media-body'><span class='d-inline-block d-sm-none'></span> <a class="hash-tag hash-tag--xs hash-tag-xs-down--md text-truncate" href="#" @click.prevent="showJobModal(job)">{{job.title}}</a><span class='d-sm-block small text-secondary ml-1 ml-sm-0 text-nowrap' data-countdown='74000'>
+														<timeago :datetime="job.created_at" :auto-update="5"></timeago>
+														</span></span></div>
+												</div>
+											</div>
+											<div class='col-sm-8'>
+												<div class='d-flex justify-content-between'>
+													<div class='text-nowrap'><span class='d-block mb-1 mb-sm-0'>Salary <a class='hash-tag text-truncate' :href="job.address_link">{{job.salary}}</a></span><span class="small text-secondary">{{job.address}}</span></div>
+													<div class="d-flex flex-column justify-content-between" ><a href="#" @click.prevent="showJobModal(job)"  class='j-badge j-badge--xs j-badge--badge-in j-badge--secondary text-center text-nowrap' title='View Detail'>View Detail</a><a href="#" @click.prevent="active=job" class="small text-primary text-right mr-1" >{{job.msgs.length}} Msgs <i class="fa fa-chevron-circle-right"></i></a></div>
+												</div>
 											</div>
 										</div>
-										<div class="col-3 text-right">
-											<div class="relative d-inline-block"></div>
+										<hr class='hr-space'>
+									</template>
+								</div>
+								<div v-show="jobTab=='cvs'" class="js-scrollbar card-body overflow-hidden" style="height: 400px;">
+									<div v-if="user.cvs.length < 1" class="row">
+										<div class="col-sm-12">
+											<h5> You Dont have Any CV Added Yet !</h5>
 										</div>
 									</div>
-									<table id="Tx" class="data-table dt-filter-init user-list selectable">
-										<thead>
-											<tr class="data-item data-head">
-												<th>{{$t('wallet.date')}}</th>
-												<th>{{$t('wallet.amount')}}</th>
-												<th class="d-none d-sm-table-cell">{{$t('wallet.tx_id')}}</th>
-												<th>{{$t('wallet.status')}}</th>
-											</tr>
-											</tr>
-										</thead>
-										<tbody v-if="balance.txs.length > 0">
-											<tr v-for="tx in deposits" class="data-item">
-												<td >{{dt(tx.created_at)}}</td> 
-												<td><div class="d-flex align-items-center"> 
-														<div class="fake-class"> 
-															<span class="lead user-name">{{ tx.amount }}{{ tx.symbol }}</span> <br> <span class="sub user-id">CONF: <span :class="tx.confirmations > 3 ?'badge-success':'badge-danger'" class="badge badge-xs badge-dim ">{{tx.confirmations}}</span></span>
-														</div>
+									<template v-for="cv in user.cvs">
+										<div class='row'>
+											<div class='col-sm-4'>
+												<div class='media align-items-sm-center mr-4 mb-1 mb-sm-0'>
+													<div class='d-none d-sm-flex mr-2'><span :class="active==cv?'btn-primary':' btn-soft-secondary'" class='btn btn-icon'><span :class="active==cv?'':'text-dark'" class='btn-icon__inner'>Cv</span></span></div>
+													<div class='media-body'><span class='d-inline-block d-sm-none'></span> <a class="hash-tag hash-tag--xs hash-tag-xs-down--md text-truncate" href="#" @click.prevent="showCvModal(cv)">{{cv.title}}</a><span class='d-sm-block small text-secondary ml-1 ml-sm-0 text-nowrap'>
+														<timeago :datetime="cv.created_at" :auto-update="5"></timeago>
+														</span></span></div>
+												</div>
+											</div>
+											<div class='col-sm-8'>
+												<div class='d-flex justify-content-between'>
+													<div class='text-nowrap'><span class='d-block mb-1 mb-sm-0'>Salary <a class='hash-tag text-truncate' :href="cv.address_link">{{cv.salary}}</a></span><span class="small text-secondary">{{cv.address}}</span></div>
+													<div class="d-flex flex-column justify-content-between" ><a href="#" @click.prevent="showCvModal(cv)" class='j-badge j-badge--xs j-badge--badge-in j-badge--secondary text-center text-nowrap' title='View Detail'>View Detail</a><a href="#" @click.prevent="active=cv" class="small text-primary text-right mr-1" >{{cv.msgs.length}} Msgs <i class="fa fa-chevron-circle-right"></i></a></div>
+												</div>
+											</div>
+										</div>
+										<hr class='hr-space'>
+									</template>
+								</div>
+								<div v-show="jobTab=='txs'" class="js-scrollbar card-body overflow-hidden" style="height: 400px;">
+									<div v-if="user.txs.length < 1" class="row">
+										<div class="col-sm-12">
+											<h5> No Deposits Found !</h5>
+										</div>
+									</div>
+									<template v-for="txs in user.txs">
+										<div class='row'>
+											<div class='col-sm-4'>
+												<div class='media align-items-sm-center mr-4 mb-1 mb-sm-0'>
+													<div class='d-none d-sm-flex mr-2'><span class='btn btn-icon btn-soft-secondary rounded-circle'><span class='btn-icon__inner text-dark'>Tx</span></span></div>
+													<div class='media-body'><span class='d-inline-block d-sm-none mr-1'>TX#</span><a class='hash-tag hash-tag--xs hash-tag-xs-down--md text-truncate' href="tx.txid_link">{{tx.txid}}</a><span class='d-none d-sm-block small text-secondary'>
+														<timeago :datetime="tx.created_at" :auto-update="5"></timeago>
+														</span></div>
+												</div>
+											</div>
+											<div class='col-sm-8'>
+												<div class='d-sm-flex justify-content-between'>
+													<div class='text-nowrap mr-4 mb-1 mb-sm-0'><span>From <a class='hash-tag text-truncate' :href="tx.address_link">{{tx.address}}</a></span><span class='d-sm-block'>Confirmations <a :href="tx.txid_link" class='hash-tag text-truncate'>{{tx.confirmations}}</a></span></div>
+													<div><span class='j-badge j-badge--xs j-badge--badge-in j-badge--secondary text-center text-nowrap' title='Amount'>{{tx.amount}}{{tx.symbol}}</span></div>
+												</div>
+											</div>
+										</div>
+										<hr class='hr-space'>
+									</template>
+								</div>
+								<div v-show="jobTab=='etxs'" class="js-scrollbar card-body overflow-hidden" style="height: 400px;">
+									<div v-if="user.etxs.length < 1" class="row">
+										<div class="col-sm-12">
+											<h5> No Withdwals Found !</h5>
+										</div>
+									</div>
+									<template v-for="txs in user.etxs">
+										<div class='row'>
+											<div class='col-sm-4'>
+												<div class='media align-items-sm-center mr-4 mb-1 mb-sm-0'>
+													<div class='d-none d-sm-flex mr-2'><span class='btn btn-icon btn-soft-secondary rounded-circle'><span class='btn-icon__inner text-dark'>TxO</span></span></div>
+													<div class='media-body'><span class='d-inline-block d-sm-none mr-1'>TX#</span><a class='hash-tag hash-tag--xs hash-tag-xs-down--md text-truncate' href="tx.txid_link">{{tx.txid}}</a><span class='d-none d-sm-block small text-secondary'>
+														<timeago :datetime="tx.created_at" :auto-update="5"></timeago>
+														</span></div>
+												</div>
+											</div>
+											<div class='col-sm-8'>
+												<div class='d-sm-flex justify-content-between'>
+													<div class='text-nowrap mr-4 mb-1 mb-sm-0'><span>To<a class='hash-tag text-truncate' :href="tx.address_link">{{tx.address}}</a></span><span class='d-sm-block'>Confirmations <a :href="tx.txid_link" class='hash-tag text-truncate'>{{tx.confirmations}}</a></span></div>
+													<div><span class='j-badge j-badge--xs j-badge--badge-in j-badge--secondary text-center text-nowrap' title='Amount'>{{tx.amount}}{{tx.symbol}}</span></div>
+												</div>
+											</div>
+										</div>
+										<hr class='hr-space'>
+									</template>
+								</div>
+								<div v-if="jobTab=='jobs'||jobTab=='cvs'"  class="card-footer"> <a  class="btn btn-xs btn-block btn-primary" :href="'/'+jobTab">Browse other {{jobTab=='jobs'?'Jobs':'Cvs'}}</a> </div>
+								<div v-if="jobTab=='txs'||jobTab=='etxs'"  class="card-footer"> <a  class="btn btn-xs btn-block btn-primary" :href="user.balance.explorer">Block Explorer</a> 
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card h-100">
+								<div class="card-header d-flex justify-content-between align-items-center">
+									
+									<h4 v-if="active.title" >
+										<copy :copy-item="active.address" :display-text="active.address"></copy>
+									</h4>
+									<h3  v-else  >MESSAGE INBOX</h3>
+									<a @click.prevent="active={}" v-if="active.title" href="#" class="btn btn-sm btn-outline btn-outline-primary"><i class="fa fa-eye"></i>All</a>
+								</div>
+								<div class="js-scrollbar card-body overflow-hidden" style="height: 400px;">
+									<template v-if="active.title">
+										<div class="row">
+											<div class="col-sm-12">
+												<h5>{{active.itype=='job'?'Applications':'Opportunities'}} For: <span class="text-primary">{{active.title}} ( {{active.itype=='job'?'Job':'Cv'}} )</span> </h5>
+												<span class="small text-secondary">You Received The following Messages. (Use this Encrypted Service to Exchange Contacts)</span> </div>
+										</div>
+										<hr class='hr-space'>
+										<div v-if="active.msgs.length < 1" class="row">
+											<div class="col-sm-12">
+												<h5> No Messages Found !</h5>
+											</div>
+										</div>
+										<template v-for="msg in active.msgs">
+											<div class='row'>
+												<div class='col-sm-5'>
+													<div class='media align-items-sm-center mr-4 mb-1 mb-sm-0'>
+														<div class='d-none d-sm-flex mr-2'><span class='btn btn-icon btn-soft-secondary'><span class='btn-icon__inner text-dark'>{{active.itype=='job'?'Job':'Cv'}}</span></span></div>
+														<div class='media-body'><span class='d-inline-block d-sm-none mr-1'>{{active.itype=='job'?'Job':'Cv'}}#</span><a class='hash-tag hash-tag--xs-160 hash-tag-xs-down--md text-truncate' href="#" @click.prevent="showMsgModal(msg)">{{msg.subject}}</a><span class='d-none d-sm-block small text-secondary'>
+															<div>
+																<timeago :datetime="msg.created_at" :auto-update="5"></timeago>
+															</div>
+															</span> </div>
 													</div>
-												</td>
-												<td  class="d-none d-sm-table-cell">
-													<a :href="tx.txid_link" target="_blank">{{tx.txid_short}}</a>
-												</td>
-												<td v-if="!tx.txid" class="d-none d-sm-table-cell">
-													{{$t('wallet.uc_unavailable')}}
-												</td>
-												<td>
-													<ul class="data-vr-list">
-														<li v-show="tx.status == 0">
-															<div class="data-state data-state-sm data-state-pending"></div>
-															{{$t('wallet.uc_pending')}}
-														</li>
-														<li v-show="tx.status ==1">
-															<div class="data-state data-state-sm data-state-approved"></div>
-															{{$t('wallet.uc_complete')}}
-														</li>
-														<li v-show="tx.status ==2">
-															<div class="data-state data-state-sm data-state-canceled"></div>
-															{{$t('wallet.uc_rejected')}}
-														</li>
-													</ul>
-												</td>
-											</tr>
-										</tbody>
-										<tbody v-else >
-											<tr>
-												<td colspan="8" align="center"><h3 class=" mt-5">{{$t('wallet.no_data')}}</h3></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="tab-pane fade" id="withdrawals">
-									<div class="has-aside">
-										<h4>{{$t('wallet.withdrawals')}} {{$t('wallet.history')}}</h4>
-									</div>
-									<div class="ht-10px"></div>
-									<div class="row justify-content-between pdb-1x">
-										<div class="col-9 col-sm-6 text-left">
-											<div class="filter">
-												<label>
-													<input type="search" v-model="wfilter" class="form-control form-control-sm" :placeholder="$t('wallet.txid')">
-												</label>
+												</div>
+												<div class='col-sm-7'>
+													<div class='d-sm-flex justify-content-between'>
+														<div class='text-nowrap mr-4 mb-1 mb-sm-0'><span>{{msg.is_mine ?'To':'From'}} <a class='hash-tag text-truncate' href="msg.from_address_link">{{msg.from_address}}</a></span><span class='d-sm-block'>For <a href='#' class='hash-tag text-truncate'>{{active.title}}({{active.itype=='job'?'Job':'Cv'}})</a></span></div>
+														<div><span><a href="#" class='btn btn-sm btn-primary mr-3' @click.prevent="showMsgModal(msg)" title='Amount'><i class="fa fa-eye"></i></a><a href="#" @click.prevent="showSendMsgModal(msg)" class='btn btn-sm btn-primary' title='Amount'><i class="fa fa-reply"></i></a></span></div>
+													</div>
+												</div>
+											</div>
+											<hr class="hr-space">
+										</template>
+									</template>
+									<template   v-else v-for="msg in user.msgs">
+										<div class='row'>
+											<div class='col-sm-5'>
+												<div class='media align-items-sm-center mr-4 mb-1 mb-sm-0'>
+													<div class='d-none d-sm-flex mr-2'><span class='btn btn-icon btn-soft-secondary'><span class='btn-icon__inner text-dark'>{{msg.stream}}</span></span></div>
+													<div class='media-body'><span class='d-inline-block d-sm-none mr-1'>{{msg.stream}}#</span><a class='hash-tag hash-tag--xs-160 hash-tag-xs-down--md text-truncate' href="#" @click.prevent="showMsgModal(msg)">{{msg.subject}}</a><span class='d-none d-sm-block small text-secondary'>
+														<div>
+															<timeago :datetime="msg.created_at" :auto-update="5"></timeago>
+														</div>
+														</span> </div>
+												</div>
+											</div>
+											<div class='col-sm-7'>
+												<div class='d-sm-flex justify-content-between'>
+													<div class='text-nowrap mr-4 mb-1 mb-sm-0'><span>{{msg.is_mine ?'To':'From'}} <a class='hash-tag text-truncate' href="msg.from_address_link">{{msg.from_address}}</a></span><span class='d-sm-block'>For <a href='#' class='hash-tag text-truncate'>{{active.title}}({{active.itype=='job'?'Job':'Cv'}})</a></span></div>
+													<div><span><a href="#" class='btn btn-sm btn-primary mr-3' @click.prevent="showMsgModal(msg)" title='Amount'><i class="fa fa-eye"></i></a><a href="#" @click.prevent="showReplyModal(msg)" class='btn btn-sm btn-primary' title='Amount'><i class="fa fa-reply"></i></a></span></div>
+												</div>
 											</div>
 										</div>
-										<div class="col-3 text-right">
-											<div class="relative d-inline-block"></div>
-										</div>
+										<hr class="hr-space">
+									</template>
+								</div>
+								<div class="card-footer row no-gutters">
+									<div class="col-md-8"><a @click.prevent="refreshWalletsInBackground()" class="btn btn-block btn-xs btn-primary" href="#"><i :class="refresh?'fa-spin':''" class="fa fa-refresh"></i> Refresh Blockchain Data</a> </div>
+									<div class="col-md-4 custom-control custom-checkbox d-flex align-items-center justify-content-end text-muted">
+										<input v-model="refresh" type="checkbox" id="mine" class="custom-control-input" checked="checked">
+										<label class="custom-control-label" for="mine"> <span>Auto Refresh</span> </label>
 									</div>
-									<table id="Etx" class="data-table dt-filter-init user-list selectable">
-									<thead>
-										<tr class="data-item data-head">
-											<th>{{$t('wallet.date')}}</th>
-											<th>{{$t('wallet.amount')}}</th>
-											<th class="d-none d-sm-table-cell">{{$t('wallet.tx_id')}}</th>
-											<th class="d-none d-md-table-cell">{{$t('wallet.address')}}</th>
-											<th>{{$t('wallet.status')}}</th>
-										</tr>
-									</thead>
-									<tbody v-if="balance.etxs.length > 0">
-										<tr v-for="etx in withdraws" class="data-item">
-											<td class="data-col">{{dt(etx.created_at)}}</td>
-											<td class="data-col"><span class="lead lead-btoken">{{ etx.amount}}{{ etx.symbol}}</span></td>
-											<td class="data-col  d-none d-sm-table-cell" v-if="etx.txid"><a target="_blank" :href="etx.txid_link" >{{ etx.txid_short }}</a></td>
-											<td class="data-col d-none d-sm-table-cell" v-else>No Tx Found</td>
-											<td class="data-col d-none d-md-table-cell"><a target="_blank" :href="etx.address_link">{{ etx.address_short }}</a></td>
-											<td class="data-col dt-status">
-												<ul  class="data-vr-list">
-													<li v-show="etx.status ==1">
-														<div class="data-state data-state-sm data-state-approved"></div>
-														{{$t('wallet.uc_complete')}} 
-													</li>
-													<li v-show="etx.status ==2">
-														<div class="data-state data-state-sm data-state-progress"></div>
-														{{$t('wallet.uc_queued')}} 
-													</li>
-													<li v-show="etx.status ==0">
-														<div class="data-state data-state-sm data-state-canceled"></div>
-														{{$t('wallet.uc_failed')}} 
-													</li>
-												</ul>
-											</td>
-										</tr>
-									</tbody>
-									<tbody v-else >
-										<tr>
-											<td colspan="8" align="center"><h3 class=" mt-5">{{$t('wallet.no_data')}}</h3></td>
-										</tr>
-									</tbody>
-								</table>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- .col -->
-				<div class="aside sidebar-right col-lg-4">
-					<div class="d-none d-lg-block"><a href="#" @click.prevent="showSendModal()" class="btn btn-danger btn-xl btn-between w-100">{{$t('wallet.withdraw',{symbol:balance.symbol})}} <em class="ti ti-arrow-right"></em></a>
-						<div class="ht-30px"></div>
-					</div>
-					<div class="token-statistics card card-token height-auto">
-						<div class="card-body">
-							<div class="token-balance">
-								<h6 class="card-sub-title">{{balance.text}} {{$t('wallet.balance')}}</h6>
-								<span class="lead">{{balance.balance}} <span>{{balance.symbol}}</span></span>
-							</div>
-							<div class="token-balance token-balance-s2">
-								<h6 class="card-sub-title">{{$t('wallet.stats')}}</h6>
-								<ul class="token-balance-list">
-									<li class="token-balance-sub"><span class="lead">{{balance.unconfirm}}</span><span class="sub">{{$t('wallet.uc_unconfirmed')}}</span></li>
-									<li class="token-balance-sub"><span class="lead">{{balance.deposited}}</span><span class="sub">{{$t('wallet.uc_deposit')}}</span></li>
-									<li class="token-balance-sub"><span class="lead">{{balance.sent}}</span><span class="sub">{{$t('wallet.uc_withdrawn')}}</span></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="token-sales card">
-						
-						<div class="sap"></div>
-						<div class="card-body">
-							<div class="card-head">
-								<h5 class="card-title card-title-sm">{{$t('wallet.backup_private_key')}}</h5>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="input-wrap"> 
-										<input class="input-bordered" v-model="sendForm.password" name="deposit"/>
-										<span class="input-note">{{$t('wallet.enter_password')}}</span>
-									</div>
-								</div>
-								<div class="col-md-12 mt-3"> 
-									<a href="#"  @click.prevent="mnemonic()" class="btn btn-danger btn-block w-100">{{$t('wallet.backup_private_key')}}<em class="ti ti-plus ml-4"></em> 
-									</a> 
-								</div>
+			</main>
+			<!-- Modals --> 
+			
+			<!-- Qr Modal Start -->
+			<div class="modal fade" id="qr-modal" tabindex="-1">
+				<div class="modal-dialog modal-dialog-md modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-content"><a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti fa fa-close"></em></a>
+							<div class="dialog-body text-center">
+								<div class="ht-20px"></div>
+								<div><img :src="user.balance.qr_link"/></div>
+								<div class="ht-20px"></div>
+								<h3>
+									<copy display-text="user.balance.address" copy-item="user.balance.address"></copy>
+								</h3>
+								<div class="ht-20px"></div>
+								<a :href="user.balance.address_link" target="_blank" class="btn btn-primary">View In Explorer</a>
+								<div class="ht-10px"></div>
 							</div>
 						</div>
+						<!-- .modal-content --> 
 					</div>
+					<!-- .modal-dialog --> 
 				</div>
-				<!-- .col -->
-		    </div>
+				<!--Qr Modal End --> 
+			</div>
 			<div class="modal fade" id="send-modal" tabindex="-1">
 				<div class="modal-dialog modal-dialog-md modal-dialog-centered">
-					<div class="modal-content"><a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
+					<div class="modal-content"><a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti fa fa-close"></em></a>
 						<div class="dialog-body">
-							<h4 class="dialog-title">{{$t('wallet.withdraw',{symbol:balance.text})}}</h4>
+							<h4 class="dialog-title">{{$t('wallet.withdraw',{symbol:user.balance.symbol})}}</h4>
 							<p>{{$t("wallet.tx_queued")}}</p>
 							<form action="#">
 								<div class="row">
 									<div class="col-md-6">
-										<div class="input-item input-with-label">
-											<label for="wallet" class="input-item-label">{{$t("wallet.wallet_pass")}} </label>
+										<div class="form-group ">
+											<label for="wallet" class="control-label">{{$t("wallet.wallet_pass")}} </label>
 											<div class="input-wrap">
-											<input class="input-bordered" type="password" id="address" name="amount" v-model="sendForm.password" >	
+												<input class="form-control" type="password" id="address" name="amount" v-model="sendForm.password" >
 											</div>
 										</div>
-										<!-- .input-item --> 
 									</div>
 									<div class="col-md-6">
-										<div class="input-item input-with-label">
-											<label for="amount" class="input-item-label">{{$t("wallet.amount_in",{symbol:balance.symbol})}}</label>
-											<input class="input-bordered" type="text" id="amount" name="amount" v-model="sendForm.amount" >
+										<div class="form-group ">
+											<label for="amount" class="control-label">{{$t("wallet.amount_in",{symbol:user.balance.symbol})}}</label>
+											<input class="form-control" type="text" id="amount" name="amount" v-model="sendForm.amount" >
 										</div>
-										<!-- .input-item --> 
 									</div>
 									<!-- .col --> 
 								</div>
 								<!-- .row -->
-								<div class="input-item input-with-label">
-									<label for="address" class="input-item-label">{{$t('wallet.coin_address',{symbol:balance.text})}}</label>
-									
-									<input class="input-bordered" type="text" id="address" name="amount" v-model="sendForm.address" >
-									<span class="input-note">{{$t("wallet.enter")}}  {{$t('wallet.coin_address',{symbol:balance.text})}}</span></div>
-								<!-- .input-item -->
+								<div class="form-group ">
+									<label for="xamount" class="control-label">{{$t('wallet.coin_address',{symbol:user.balance.text})}}</label>
+									<input class="form-control" type="text" id="xamount" name="amount" v-model="sendForm.address" >
+									<span class="input-note">{{$t("wallet.enter")}}  {{$t('wallet.coin_address',{symbol:user.balance.text})}}</span></div>
 								<div class="note note-plane note-danger"><em class="fas fa-info-circle"></em>
-									<p>{{$t("wallet.fees_note")}}</p> 
+									<p>{{$t("wallet.fees_note")}}</p>
 								</div>
 								<div class="ht-30px"></div>
 								<div class="d-sm-flex justify-content-between align-items-center">
 									<button @click.prevent="sendCoins()" :disabled="!sendOk" class="btn btn-primary">{{$t("wallet.send_now")}}</button>
 									<div class="ht-20px d-sm-none"></div>
-									<span v-show="sendOk" class="text-success"> <em class="ti ti-check-box"></em>>{{$t("wallet.ok_amount")}}</span> <span v-show="!sendOk" class="text-danger"><em class="ti ti-close"></em> {{$t("wallet.invalid_amount")}} </span> </div>
+									<span v-show="sendOk" class="text-success"> <em class="fa fa-check-box"></em>>{{$t("wallet.ok_amount")}}</span> <span v-show="!sendOk" class="text-danger"><em class="fa fa-close"></em> {{$t("wallet.invalid_amount")}} </span> </div>
 							</form>
 							<!-- form --> 
 						</div>
@@ -265,42 +323,201 @@
 				</div>
 				<!-- .modal-dialog --> 
 			</div>
-		
-			<div class="modal fade" id="pv-modal" tabindex="-1">
+			
+			<!-- Modal End -->
+			<div class="modal fade" id="job-modal" tabindex="-1" >
 				<div class="modal-dialog modal-dialog-md modal-dialog-centered">
-					<div class="modal-content"><a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
+					<div class="modal-content"> <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti fa fa-times"></em></a>
 						<div class="dialog-body">
-							<h4 class="dialog-title">Mnemonic (Xpriv)</h4>
-							<p>DONOT SHARE THIS KEY WITH ANYONE</p>
-							<div class="ht-10px"></div>
-							<div class="input-wrap mgb-0-5x">
-								<textarea disabled class="input-bordered" rows="8" v-model="emnemonic"></textarea>
-							</div>
-							<div class="ht-30px"></div>
-							<div class="note note-plane note-light mgb-1x"><em class="fas fa-info-circle"></em>
-								<p>If you lose your password Admin Can Recover your Coins using this Mnemonic.</p>
-							</div>
+							<h4 class="dialog-title">{{mjob.address}}</h4>
+							<label for="address" class="form-label">Txid: {{mjob.txid}} </label>
+							<form action="#">
+								<h4 class="dialog-title text-primary">{{mjob.title}}</h4>
+								<div class="row">
+									<div class="col-md-8">
+										<div class="form-group">
+											<label for="address" class="form-label">Qualifications </label>
+											<div class="form-control">{{mjob.qualifications}}</div>
+										</div>
+										<!-- .form --> 
+									</div>
+									<!-- .col -->
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="amt" class="form-label">Salary </label>
+											<div class="form-control">{{mjob.salary}}</div>
+										</div>
+									</div>
+									<!-- .col --> 
+								</div>
+								<!-- .row -->
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="address" class="form-label">Category </label>
+											<div class="form-control">{{mjob.category}}</div>
+										</div>
+									</div>
+									<!-- .col -->
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="password" class="form-label">Expiry Date </label>
+											<div class="form-control">{{dt(mjob.expiry)}}</div>
+										</div>
+									</div>
+									<!-- .col --> 
+								</div>
+								<!-- .row -->
+								<div class="row form-group">
+									<div class="col-md-12">
+										<label for="address" class="form-label">Description</label>
+									</div>
+									<div class="col-md-12 mb-3 mb-md-0">
+										<div class="form-control">{{mjob.description}}</div>
+									</div>
+								</div>
+								<div class="my-2"></div>
+							</form>
+							<!-- form --> 
 						</div>
 					</div>
 					<!-- .modal-content --> 
 				</div>
 				<!-- .modal-dialog --> 
 			</div>
-			<!-- Modal End -->
+			<!-- Modal End --> 
+			
+			<!-- CV Modal Start -->
+			<div class="modal fade" id="cv-modal" tabindex="-1" >
+				<div class="modal-dialog modal-dialog-md modal-dialog-centered">
+					<div class="modal-content"> <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti fa fa-times"></em></a>
+						<div class="dialog-body">
+							<h4 class="dialog-title">{{mcv.address}}</h4>
+							<label for="address" class="form-label">Txid: {{mcv.txid}} </label>
+							<form action="#">
+								<h4 class="dialog-title text-primary">{{mcv.title}}</h4>
+								<div class="row">
+									<div class="col-md-8">
+										<div class="form-group">
+											<label for="address" class="form-label">Expirience </label>
+											<div class="form-control">{{mcv.expirience}}</div>
+										</div>
+										<!-- .form --> 
+									</div>
+									<!-- .col -->
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="amt" class="form-label">Salary </label>
+											<div class="form-control">{{mcv.salary}}</div>
+										</div>
+									</div>
+									<!-- .col --> 
+								</div>
+								<!-- .row -->
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="address" class="form-label">Category </label>
+											<div class="form-control">{{mcv.category}}</div>
+										</div>
+									</div>
+									<!-- .col -->
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="password" class="form-label">Expiry Date </label>
+											<div class="form-control">{{mcv.expiry}}</div>
+										</div>
+									</div>
+									<!-- .col --> 
+								</div>
+								<!-- .row -->
+								<div class="row form-group">
+									<div class="col-md-12">
+										<label for="address" class="form-label">Description</label>
+									</div>
+									<div class="col-md-12 mb-3 mb-md-0">
+										<div class="form-control">{{mcv.description}}</div>
+									</div>
+								</div>
+								<div class="my-2"></div>
+							</form>
+							<!-- form --> 
+						</div>
+					</div>
+					<!-- .modal-content --> 
+				</div>
+				<!-- .modal-dialog --> 
+			</div>
+			<!-- CV Modal End -->
 			<div class="modal fade" id="send-success" tabindex="-1">
 				<div class="modal-dialog modal-dialog-md modal-dialog-centered">
 					<div class="modal-content">
 						<div class="dialog-body text-center">
 							<div class="ht-20px"></div>
-							<div class="pay-status pay-status-success"><em class="ti ti-check"></em></div>
+							<div><i class="status-icon icon-success d-inline-block text-center rounded fa fa-check"></i></div>
 							<div class="ht-20px"></div>
 							<h3>{{$t("wallet.send_success")}}</h3>
 							<p>{{$t("wallet.send_success_desc")}}</p>
 							<p v-if="last.txid">TXID: {{last.txid}}</p>
 							<div class="ht-20px"></div>
-							<a v-if="last.txid_link" :href="last.txid_link" target="_blank" class="btn btn-primary">{{$t("wallet.view_tx")}}</a>
-							<a v-if="!last.txid" @click.prevent="showSendModal()" href="#"  class="btn btn-primary">{{$t("wallet.send_more")}}</a>
+							<a v-if="last.txid_link" :href="last.txid_link" target="_blank" class="btn btn-primary">{{$t("wallet.view_tx")}}</a> <a v-if="!last.txid" @click.prevent="showSendModal()" href="#"  class="btn btn-primary">{{$t("wallet.send_more")}}</a>
 							<div class="ht-10px"></div>
+						</div>
+					</div>
+					<!-- .modal-content --> 
+				</div>
+				<!-- .modal-dialog --> 
+			</div>
+			<!-- .modal-dialog -->
+			<div v-if="mmsg.length > 0" class="modal fade" id="msg-modal" tabindex="-1" >
+				<div class="modal-dialog modal-dialog-md modal-dialog-centered">
+					<div class="modal-content"> <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti fa fa-times"></em></a>
+						<div class="dialog-body">
+							<h4 class="dialog-title">{{mmsg.from_address}} </h4>
+							<span class="small text-secondary">{{mmsg.is_mine?'OutBox':'InBox'}}</span> <span v-if="mmsg.is_mine" class="small text-secondary">Message was Sent To you on {{dt(mmsg.created_at)}}</span> <span v-else class="small text-secondary">You Sent This Message On on {{dt(mmsg.created_at)}}</span>
+							<h4 class="dialog-title text-primary">Subject: {{mmsg.subject}}</h4>
+							<div class="ht-10px"></div>
+							<p class="dialog-title">Message: {{mmsg.address}}</p>
+							<div class="form-group">
+								<label for="address" class="form-label">Message </label>
+								<textarea readonly name="message" class="form-control" id="" cols="30" rows="4">{{mmsg.message}}</textarea>
+							</div>
+							<!-- .form -->
+							<div class="row form-group">
+								<div class="col-md-6"> <a @click.prevent="showReplyModal(mmsg)" class="btn btn-primary  py-2 px-5">Reply Message</a> </div>
+								<div class="col-md-6"> <span class="small text-danger">Sending Messages Costs {{symbol}} !</span> </div>
+							</div>
+							<div class="my-2"></div>
+						</div>
+					</div>
+					<!-- .modal-content --> 
+				</div>
+				<!-- .modal-dialog --> 
+			</div>
+			<div class="modal fade" id="reply-modal" tabindex="-1" >
+				<div class="modal-dialog modal-dialog-md modal-dialog-centered">
+					<div class="modal-content"> <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti fa fa-times"></em></a>
+						<div class="dialog-body">
+							<h4 class="dialog-title">Reply: {{mmsg.title}}</h4>
+							<div  class="ht-10px"></div>
+							<p>{{mmsg.message}}</p>
+							<hr class="hr-space">
+							<div class="form-group">
+								<label for="address" class="form-label">Subject </label>
+								<input v-model="reply.subject" class=form-control type="text" name="subject">
+							</div>
+							<!-- .form -->
+							<div class="form-group">
+								<label for="address" class="form-label">Message </label>
+								<textarea v-model="reply.message" name="message" class="form-control" id="" cols="30" rows="4"></textarea>
+							</div>
+							<!-- .form -->
+							<div class="row form-group">
+								<div class="col-md-12">
+									<button @click.prevent="replyMessage()" type="button"class="btn btn-primary  py-2 px-5">Reply Message</button>
+								</div>
+							</div>
+							<div class="my-2"></div>
 						</div>
 					</div>
 					<!-- .modal-content --> 
@@ -313,7 +530,7 @@
 					<div class="modal-content">
 						<div class="dialog-body text-center">
 							<div class="ht-20px"></div>
-							<div class="pay-status pay-status-error"><em class="ti ti-alert"></em></div>
+							<div><i class="status-icon icon-error d-inline-block text-center rounded fa fa-times"></i></div>
 							<div class="ht-20px"></div>
 							<h3 v-if="!queued">{{$t("wallet.send_failed")}}</h3>
 							<h3 v-if="queued">{{$t("wallet.send_queued")}}</h3>
@@ -328,87 +545,50 @@
 				</div>
 				<!-- .modal-dialog --> 
 			</div>
-			<div class="modal fade" id="redeem-modal" tabindex="-1">
-				<div class="modal-dialog modal-dialog-md modal-dialog-centered">
-					<div class="modal-content"><a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
-						<div class="dialog-body">
-							<h4 class="dialog-title">Redeem Classic BitAlgo</h4>
-							<p>Send your Classic Bitalgo to this Address </p>
-							<div class="ht-10px"></div>
-							<p>{{oldwallet.address}}</p>
-							<div class="ht-10px"></div>
-							<div class="input-wrap mgb-0-5x">
-								<textarea placeholder="Enter the TXID here" class="input-bordered" rows="3" v-model="txid"></textarea>
-							</div>
-							<div class="ht-30px"></div>
-							<div class="note note-plane note-light mgb-1x"><em class="fas fa-info-circle"></em>
-								<p>BitAlgo will be added to your Wallet after Verification by our Team.</p>
-							</div>
-							<div class="ht-10px"></div>
-							<div class="d-flex justify-contents-center">
-								<a href="#" @click.prevent="redeemTxid()" class="btn btn-success">Request Exchange</a>
-							</div>
-						</div>
-					</div>
-					<!-- .modal-content --> 
-				</div>
-				<!-- .modal-dialog --> 
-			</div>
-			<a v-show="!oldwallet.show" href="#"  @click.prevent="showRedeemModal()" class="promo-trigger active"><div class="promo-trigger-img"><img src="/images/classic_bitalgo.png" alt="bitalgo"></div><div class="promo-trigger-text">Exchange Your<br>Classic BitAlgo</div></a>
-			<div v-show="oldwallet.show" class="promo-content">
-				<a href="#"  @click.prevent="oldwallet.show=false" class="promo-close"><em class="ti ti-close"></em></a> 
-				<a @click.prevent="showRedeemModal()" href="#" class="promo-content-wrap">
-				<div class="promo-content-img">
-					<img src="/images/oldwallet.jpg" alt="walletbitalgo.io">
-				</div>
-				<div class="promo-content-text">
-					<h5>You have <span>{{oldwallet.amount}}{{balance.symbol}}</span> <br>
-						BitAlgo Classic</h5>
-					<p>This will be Sent to Your<br>
-						New Wallet Soon!</p>
-				</div>
-				</a>
-			</div>	
 		</div>
-		
 	</div>
 </template>
 <script type="text/javascript">
 import $ from 'jquery';
+import copy from './copy.vue';
 export default{
+	components:{
+		copy:copy
+	},
 	/**
 	 * The component's data.
 	 */
 	data() {
 		return {
-			oldwallet: {
-				show:true,
-				amount:'0.000',
-				address:'',
-				redeemId:''
-			},
+			jobTab:"jobs",
 			txid:"",
-			balance: {},
+			active: {},
+			user: {},
+			mcv: {},
+			mmsg: {},
+			mjob: {},
 			settings: {},
-			set_password:"",
-			send_error:"",
-			setuperror:"",
+			send_error: "",
 			queued:false,
-			deposit_amount:0,
-			symbol:"BTC",
+			refresh:false,
+			symbol:"JBT",
 			last: {},
 			sendForm:{
                 amount: "",
                 address: "",
 				password:""
 			},
+			reply:{
+                message: "",
+                subject: "",
+				message_id:""
+			},
 			isSaving: false,
 			getAddress: false,
 			ready: false,
 			disabled: false,
 			errors: [],
-			dfilter:'',
-			wfilter:'',
+			filter:'',
 			emnemonic:'',
 		};
 		
@@ -418,43 +598,34 @@ export default{
 		
 		sendOk(){
 			var send = parseFloat(this.sendForm.amount);
-			var bal = parseFloat(this.balance.balance);
+			var bal = parseFloat(this.user.balance);
 			return  send > 0 && bal > send;
 		},
 		deposits(){
 			if(this.dfilter.length > 3 ){
 				console.log('f-only');
-				return  _.filter(this.balance.txs, (o) =>{ 
+				return  _.filter(this.user.txs, (o) =>{ 
 					return o.txid.indexOf(this.dfilter) !== -1 
 				});
 			}
-			return _.take(this.balance.txs , 20);
+			return _.take(this.user.txs , 20);
 		},
 		withdraws(){
 			if(this.wfilter.length > 3 ){
-				return  _.filter(this.balance.etxs, (o) =>{ 
+				return  _.filter(this.user.etxs, (o) =>{ 
 					return o.txid.indexOf(this.wfilter) !== -1 ||o.address.indexOf(this.wfilter) !== -1
 				});
 			}
-			return _.take(this.balance.etxs , 20);
+			return _.take(this.user.etxs , 20);
 		}
 	},
-
-
 	/**
 	 * The component has been created by Vue.
 	 */
 	created() {
-		axios.get('/ajax/balance/').then(balance =>{
-			this.balance = balance.data;
-			this.symbol =  this.balance.symbol;
-			this.oldwallet.show = false;
-			if(typeof this.balance.user !='undefined' && this.balance.user.showclassic){
-				this.oldwallet.show = true;	
-				this.oldwallet.show = true;	
-				this.oldwallet.amount = this.balance.user.classicbalance;	
-			}
-			this.symbol =  this.balance.symbol;
+		axios.get('/ajax/user/').then(user =>{
+			this.user = user.data;
+			this.symbol =  this.user.balance.symbol;
 			this.ready = true;
 		});
 	},
@@ -463,6 +634,43 @@ export default{
 	
 	methods: {
 		/**
+		 * show Job Modal.
+		 */
+		showJobModal(job){
+			this.mjob = job;
+			$('#job-modal').modal('show');
+		},
+		
+		/**
+		 * show Job Modal.
+		 */
+		showReplyModal(msg){
+			this.mmsg = msg;
+			this.reply.message_id = msg.id;
+			$('#reply-modal').modal('show');
+		},
+		
+		/**
+		 * show Cv Modal.
+		 */
+		showCvModal(cv){
+			this.mcv = cv;
+			$('#cv-modal').modal('show');
+		},
+		/**
+		 * show Msg Modal.
+		 */
+		showMsgModal(msg){
+			this.mmsg = msg;
+			$('#msg-modal').modal('show');
+		},
+		/**
+		 * show Qr Modal.
+		 */
+		showQrModal(){
+			$('#qr-modal').modal('show');
+		},
+		/**
 		 * show Edit Balance Modal.
 		 */
 		showSendModal(){
@@ -470,69 +678,7 @@ export default{
 			$('#send-failed').modal('hide');
 			$('#send-modal').modal('show');
 		},
-		
-		showRedeemModal(){
-			axios.post('/ajax/redemption/address').then(response => {
-				this.isSaving = false;
-				if(typeof response.data.error !== "undefined"){
-					this.error(response.data.error)
-					this.setuperror = response.data.error
-					return ;
-				}
-				this.oldwallet.address = response.data.address;
-				this.oldwallet.redeemId = response.data.id;
-				this.oldwallet.show=false;
-				$('#redeem-modal').modal('show');
-			}).catch( (errors) => {
-				this.isSaving = false;
-				this.getAddress = false;
-				if (errors.response) {
-					this.errors = errors.response.data.errors;
-					return this.error(errors.response.data.message);
-				} else if (errors.request) {
-					return this.error(this.$t('wallet.empty_error'));
-				} else {
-				    return this.error(this.$t('wallet.connection_error'));
-				}
-				return this.error(this.$t('wallet.unknown_error'));
-			});
-			
-		},
-		
-		redeemTxid(){
-			if(!this.txid)return this.error('Please Enter TXID');
-			if(!this.oldwallet.redeemId) return this.error('Could Not Create Redeem Point for your Wallet, Please contact support');
-			$('#redeem-modal').modal('hide');
-			axios.post('/ajax/redeem',{
-				id:this.oldwallet.redeemId,
-				txid:this.txid
-			}).then(response => {
-				this.isSaving = false;
-				if(typeof response.data.error !== "undefined"){
-					this.error(response.data.error)
-					this.setuperror = response.data.error
-					return ;
-				}
-				this.oldwallet.address = response.data.address;
-				this.oldwallet.redeemId = response.data.id;
-				this.oldwallet.show=false;
-				
-				this.success('Exchange Request Recieved and will be processed shortly')
-			}).catch( (errors) => {
-				this.isSaving = false;
-				this.getAddress = false;
-				if (errors.response) {
-					this.errors = errors.response.data.errors;
-					return this.error(errors.response.data.message);
-				} else if (errors.request) {
-					return this.error(this.$t('wallet.empty_error'));
-				} else {
-				    return this.error(this.$t('wallet.connection_error'));
-				}
-				return this.error(this.$t('wallet.unknown_error'));
-			});
-			
-		},
+	
 		get_new_address(){
 			this.getAddress = true;
 			this.isSaving = true;
@@ -545,7 +691,7 @@ export default{
 					this.setuperror = response.data.error
 					return ;
 				}
-				this.balance = response.data;
+				this.user = response.data;
 			}).catch( (errors) => {
 				this.isSaving = false;
 				this.getAddress = false;
@@ -561,75 +707,30 @@ export default{
 			});
 		
 		},
-		setup_wallet(){
-			if(! /[A-Z]+/.test(this.set_password)) { 
-				this.setuperror = this.$t('wallet.use_capital_letter')
-				return false;
-			}
-			if(! /[a-z]+/.test(this.set_password)) { 
-				this.setuperror = this.$t('wallet.use_small_letter')
-				return false;
-			}
-			if(! /[0-9]+/.test(this.set_password)) { 
-				this.setuperror = this.$t('wallet.use_number')
-				return false;
-			}
-			if(! /[\W]+/.test(this.set_password)) { 
-				this.setuperror = this.$t('wallet.use_symbol')
-				return false;
-			}
-			if(this.set_password.length < 8) { 
-				this.setuperror = this.$t('wallet.use_long')
-				return false;
-			}
-			this.isSaving = true;
-			this.setuperror="";
-			axios.post('/ajax/balance/setup', { 
-				password:this.set_password,
-			}).then(response => {
-				this.isSaving = false;
-				if(typeof response.data.error !== "undefined"){
-					this.error(response.data.error)
-					this.setuperror = response.data.error
-					return ;
-				}
-				this.success(this.$t('wallet.setup_complete'));
-				this.balance = response.data;
-			}).catch( (errors) => {
-				this.isSaving = false;
-				if (errors.response) {
-					this.errors = errors.response.data.errors;
-					return this.error(errors.response.data.message);
-				} else if (errors.request) {
-					return this.error(this.$t('wallet.empty_error'));
-				} else {
-				    return this.error(this.$t('wallet.connection_error'));
-				}
-				return this.error(this.$t('wallet.unknown_error'));
-			});
-		},
-		refreshWalletsInBackground(){
-			axios.get('/ajax/balance/').then((balance)=>{
-				this.balance = balance.data;
+	
+		refreshWalletsInBackground(){ 
+			this.refresh = true;
+			axios.get('/ajax/user/').then( user =>{
+				this.user = user.data;
+				this.refresh = false;
 			})
 		},
-		
-		mnemonic(){
-			$('#pv-modal').modal('hide');
+		replyMessage(){
 			this.isSaving = true;
-			axios.post('/ajax/balance/mnemonic', {
-				password:this.sendForm.password,
-			}).then(response => {
-				this.sendForm.password ="";
+			axios.post('/ajax/msgs/reply', this.reply).then(response => {
+				$('#reply-modal').modal('hide');
 				this.isSaving = false;
 				if(typeof response.data.error !== "undefined"){
-					this.error(response.data.error)
+					this.queued = false;
+					this.send_error = response.data.error
+					$('#send-failed').modal('show');
 					return ;
 				}
-				this.emnemonic = response.data;
-				$('#pv-modal').modal('show');
+				this.last = response.data;
+				$('#send-success').modal('show');
+				this.refreshWalletsInBackground();
 			}).catch( (errors) => {
-				$('#pv-modal').modal('hide');
+				$('#reply-modal').modal('hide');
 				this.isSaving = false;
 				if (errors.response) {
 					this.errors = errors.response.data.errors;

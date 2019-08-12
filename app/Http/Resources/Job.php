@@ -29,13 +29,20 @@ class Job extends JsonResource
             'title'=> $this->title,
             'qualifications'=> $this->qualifications,
             'description'=> $this->description,
+            'salary'=> $this->salary,
+            'category'=> $this->category,
+            'txid'=> $this->txid,
+            'confirmations'=> $this->confirmations,
+            'created_at'=> $this->created_at,
+            'expiry'=> $this->expiry,
             'expirience'=> $this->expirience,
             'count'=> $this->count,
+            'itype'=> 'job',
             'status'=> $this->status,
             'active'=> $this->active,
             'country'=> new Country($this->whenLoaded('country')),
             'user'=> new User($this->whenLoaded('user')),
-            'applicants'=> Cv::collection($this->whenLoaded('applicants')),
+            'msgs'=> Msg::collection($this->whenLoaded('msgs')),
         ];
     }
 }

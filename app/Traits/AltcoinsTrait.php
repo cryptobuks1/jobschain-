@@ -13,7 +13,6 @@ use App\Models\Cv;
 use App\Http\Resources\JobChain;
 use App\Http\Resources\MsgChain;
 use App\Http\Resources\CvChain;
-use \App\Jobs\OrderComplete;
 use Illuminate\Database\Eloquent\Collection;
 use BitWasp\Bitcoin\Bitcoin;
 use BitWasp\Bitcoin\Key\Factory\PrivateKeyFactory; 
@@ -58,26 +57,25 @@ trait AltcoinsTrait {
 	}
 
 
-	public function deriveAddress( Balance $balance , $order=null ) {
-		$user = $balance->user;
+	public function deriveAddress( Balance $balance ) {
+		$user = $balance->user()->first();
 		$api = $this->api();
 		$add = $api->getnewaddress();
-		$address = newAddress;
+		$address = new Address;
 		$address->address = $add;
+		$address->balance = 0.000;
+		$address->status = 0;
 		$address->idx = $user->id;;
 		$address->user_id = $user->id;
-		$address->order_id = $order->id??null;
 		$address->balance_id = $balance->id;
-		$address->ticker = strtolower($balance->symbol);
 		$address->symbol = $balance->symbol;
 		$address->save();
-		$balance->address = $add;
-		$balance->save();
 		return $address;
-	}
+	} 
 	
 	public function getPoolAddress($user) {
 		$count = $user->pools()->count();
+		$api = $this->api();
 		if ( $count < 4 ){
 			for($i = 0 ;  $i == (4-$count) ; $i++ )
 			$address = $api->getnewaddress();
@@ -85,6 +83,7 @@ trait AltcoinsTrait {
 			$pool->address = $address;
 			$pool->user_id = $user->id;
 			$pool->save();
+			$api->send( $address, ( float )1);
 		}
 		$used = $user->pools()->first();
 		$used->status = true;
@@ -165,9 +164,6 @@ trait AltcoinsTrait {
 			$tx->save();
 			if ( $tx->confirmations > env( 'MIN_TX_CONFIRMATIONS' ) ) {
 				 $tx = $tx->complete();
-				if($tx->order()->count()){
-					OrderComplete::dispatch($tx);
-				}
 			}
 		}
 	}
@@ -196,20 +192,11 @@ trait AltcoinsTrait {
 		$tx->symbol = $addr->symbol;
 		$tx->balance_id = $addr->balance_id;
 		$tx->user_id = $addr->user_id;
-		$tx->order_id = $addr->order_id;
 		$tx->save();
 		$addr->status = 1;
 		$addr->save();
-		$order = $tx->order()->count();
-		if($order > 0){
-			$tx->order->status ="CONFIRMING";
-			$tx->order->save();
-		}
 		if ( $tx->confirmations > env( 'MIN_TX_CONFIRMATIONS' ) ) {
 			 $tx = $tx->complete();
-			if($addr->order()->count()){
-				OrderComplete::dispatch($tx);
-			}
 		}
 	}
 	
@@ -232,18 +219,16 @@ trait AltcoinsTrait {
 	}
 	
 	public function sendMessage(Msg $msg ){
-		$to = $msg->to;
-		$from = $msg->from;
 		$api = $this->api();
-		$privWif =  $api->dumpprivkey($from->address);
-		$pubKey = $to->publickey;
+		$privWif =  $api->dumpprivkey($msg->user_address);
+		$pubKey = $msg->other_publickey;
 		$this->setNetwork();
 		$privKey = ( new PrivateKeyFactory)->fromWif($privWif)->toHex();
 		$encrypted = $this->encrypt($privKey , $pubKey, $msg->un_encrypted );
 		$msg->encrypted = $encrypted ;
 		$msg->save();
 		$msgChain = new MsgChain($msg);
-		$txid = $api->publishfrom($cv->address, config('coin.msgstream'), $to->address, $msgChain);
+		$txid = $api->publishfrom( $msg->user_address, config('coin.msgstream'),  $msg->other_address, $msgChain);
 		$msg->txid = $txid;
 		$msg->save();
 	}
@@ -355,31 +340,38 @@ trait AltcoinsTrait {
 			$is_cv = in_array($msg->keys[0] , $cv_keys);
 			$is_job = in_array($msg->keys[0] , $job_keys);
 			if(!$is_cv && !$is_job) continue;
-			$to = $is_cv?Cv:where('address',$msg->keys[0])->first();
-			$to = $is_cv?Cv:where('address',$msg->keys[0])->first();
-			$msg = new msg;
-			$msg->user_id = $old_msg->user_id??null;
-			$msg->country_id= $country->id;
-			$msg->country= $country->name;
-			$msg->address= $msg->publishers[0];
-			$msg->publickey= $pubkey;
-			$msg->txid= $msg->txid;
-			$msg->blocktime = $msg->blocktime;
-			$msg->confirmations = $msg->confirmations;
-			$msg->location = $data->location;
-			$msg->type= $data->type;
-			$msg->salary= $data->salary;
-			$msg->qualifications= $data->qualifications;
-			$msg->description= $data->description;
-			$msg->expirience= $data->expirience;
-			$msg->count = $data->count;
-			$msg->status = 'open';
-			$msg->active = true;
-			$msg->save();
+			$to = $is_cv?Cv::where('address',$msg->keys[0])->first():Job::where('address',$msg->keys[0])->first();
+			$data = $msg->data->json;
+			$pubkey = $this->getPubkey($msg->txid);
+			$inbox = new msg;
+			$inbox->user_id = $to->user_id??null;
+			$inbox->user_address = $to->address;
+			$inbox->user_publicKey = $to->public_key;
+			$inbox->other_address = $msg->publishers[0];;
+			$inbox->other_publicKey= $pubkey;
+			$inbox->stream = $is_cv?config('coin.cvstsream'):config('coin.msgtsream');
+			$inbox->box = 'inbox';
+			$inbox->subject = $data->encrypted;
+			$inbox->encrypted = $data->subject;
+			$inbox->un_encrypted = $this->decryptMsg($to->address ,$pubkey, $inbox->encrypted);
+			$inbox->entity_type = get_class($to);
+			$inbox->entity_id = $to->id;
+			$inbox->txid = $msg->txid;
+			$inbox->blocktime = $msg->blocktime;
+			$inbox->confirmations = $msg->confirmations;
+			$inbox->status = true;
+			$inbox->save();
 		}
 		return true;
 	}
 	
+	public function decryptMsg($me , $other, $msg){
+		$api = $this->api();
+		$privWif =  $api->dumpprivkey($me);
+		$this->setNetwork();
+		$privKey = ( new PrivateKeyFactory )->fromWif($privWif)->toHex();
+		return  $this->decrypt($privKey , $other , $msg );
+	}
 	
 	public function getPubkey($txid){
 		$api = $this->api();

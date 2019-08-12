@@ -8,9 +8,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Traits\HasPolyMorphicResource;
 class Msg extends JsonResource
 {
+	use HasPolyMorphicResource;
     /**
      * Transform the resource into an array.
      *
@@ -22,18 +23,19 @@ class Msg extends JsonResource
         return [
             'id'=>$this->id,
             'user_id'=> $this->user_id,
-            'from_user_id'=> $this->from_user_id,
-            'from_address'=> $this->from_address,
-            'from_publicKey'=> $this->from_publicKey,
-            'to_address'=> $this->to_address,
-            'to_publicKey'=> $this->to_publicKey,
+            'user_address'=> $this->from_address,
+            'user_address_link'=> config('coin.explorer').'/address/'.$this->user_address,
+            'other_address_link'=> config('coin.explorer').'/address/'.$this->other_address,
+            'stream'=> uc_first(strtolower($this->stream)),
+            'other_address'=> $this->other_address,
             'subject'=> $this->subject,
-            'encrypted'=> $this->encrypted,
             'un_encrypted'=> $this->un_encrypted,
             'txid'=> $this->txid,
+            'blocktime'=> $this->blocktime,
+            'confirmations'=> $this->confirmations,
             'status'=> $this->status,
-            'recipient'=> new User($this->whenLoaded('recipient')),
-            'sender'=> new User($this->whenLoaded('sender')),
+            'user'=> new User($this->whenLoaded('user')),
+            'entity'=>$this->morphResource('entity',$this->entity_type),
         ];
     }
 }

@@ -31,6 +31,8 @@ class Country extends Model
     */
     protected $primaryKey = 'id';
 	
-	
+	public function jobs() {
+		return $this->hasMany( \App\Models\Job::class, 'country_id', 'id' );
+	}
     
 }

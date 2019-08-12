@@ -304,7 +304,7 @@ jQuery(document).ready(function($) {
 	  }
 	};
 	siteCarousel();
-
+    
 	var siteStellar = function() {
 		$(window).stellar({
 	    responsive: false,

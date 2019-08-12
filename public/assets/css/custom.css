@@ -620,3 +620,45 @@
         font-size: 13px
     }
 }
+
+.status-icon {
+    height: 90px;
+    width: 90px;
+    line-height: 82px;
+    border: 2px solid;
+    font-size: 36px
+}
+
+.icon-primary{
+    border-color: #28a745;
+    color: #28a745
+}
+
+.icon-secondary{
+    border-color: #ffc100;
+    color: #ffc100
+}
+
+.icon-danger  {
+    border-color: #ff6868;
+    color: #ff6868
+}
+
+ul > li {
+	list-style: none;
+}
+
+tx-56{
+	font-size: 56px;
+}
+.j-badge--badge-in:hover:after{
+    border-right: .7rem solid #1A6B31;
+}
+.j-badge--secondary[href]:focus, .j-badge--secondary[href]:hover {
+    color: #fff;
+    background-color: #1A6B31;
+}
+	
+.j-badge--badge-in:after{
+    transition: .2s ease-in-out;
+}

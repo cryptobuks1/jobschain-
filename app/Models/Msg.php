@@ -47,37 +47,28 @@ class Msg extends Model
      */
     protected $fillable = [
 		'user_id', 
-		'from_user_id', 
-		'from_address', 
-		'from_publicKey', 
-		'to_address', 
-		'to_publicKey', 
+		'user_address', 
+		'user_publicKey', 
+		'other_address', 
+		'other_publicKey', 
 		'subject', 
 		'encrypted', 
 		'un_encrypted', 
 		'txid', 
-		'to_id', 
-		'to_type', 
-		'from_id', 
-		'from_type', 
+		'entity_id', 
+		'entity_type', 
 		'status'
 	];
 
-    public function recipient()
+    public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
-    }
-    public function sender()
-    {
-        return $this->belongsTo(\App\Models\User::class, 'from_user_id', 'id');
-    }
-	public function from()
+    } 
+	
+	public function entity()
     {
         return $this->morphTo();
     }
-    public function to()
-    {
-        return $this->morphTo();
-    }
+    
     
 }

@@ -25,14 +25,19 @@ class Cv extends JsonResource
             'address'=> $this->address,
             'publickey'=> $this->publickey,
             'qualifications'=> $this->qualifications,
+            'title'=> $this->qualifications,
             'country'=> $this->country,
+            'itype'=> 'cv',
             'location'=> $this->location,
             'description'=> $this->description,
             'salary'=> $this->salary,
             'expirience'=> $this->expirience,
             'type'=> $this->type,
+            'txid'=> $this->txid,
+            'created_at'=> $this->created_at,
             'active'=> $this->active,
             'user'=> new User($this->whenLoaded('user')),
+			'msgs'=> Msg::collection($this->whenLoaded('msgs')),
         ];
     }
 }

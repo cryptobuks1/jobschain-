@@ -19,6 +19,7 @@ class JobsTableSeeder extends Seeder
 				'country'=>'Germany', 
 				'address'=>'CLmMPQjncKFPyaK8MVCDXnJVDB1LEqUdH5', 'publickey'=>'027cff3590f016f67388d9db99e0e3b4b54b4ec95c09766b5745409a1151c17bfd', 
 				'company_name'=>'Envatic Edge', 
+				'category'=>'Engineering', 
 				'title'=>'Software Engineer', 
 				'salary'=>'80,000-120,000$', 
 				'qualifications'=>'Master in Engineering', 
@@ -28,6 +29,7 @@ class JobsTableSeeder extends Seeder
 				'status'=>'open', 
 				'active'=>1,
             ]);
+		
          
 	}
 }

@@ -12,4 +12,4 @@ let mix = require('laravel-mix');
  */
 mix//.js('resources/js/app.js', 'public/assets/js/admin.js')
 	//.sass('resources/sass/app.scss', 'public/assets/css/flaticon.css')
-	.js('resources/js/userwallets.js', 'public/assets/js/user.js');
+	.js('resources/js/app.js', 'public/assets/js/app.js'); 
