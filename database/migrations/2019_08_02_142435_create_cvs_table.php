@@ -30,7 +30,7 @@ class CreateCvsTable extends Migration
             $table->string('location',160)->nullable();
             $table->string('description',300);
             $table->string('salary');
-            $table->demcial('Fees',16,8)->nullable();
+            $table->decimal('Fees',16,8)->nullable();
             $table->datetime('expiry')->nullable();
             $table->tinyInteger('expirience')->default(0);
             $table->enum('type', ["full_time","part_time","freelance"])->default('full_time');
