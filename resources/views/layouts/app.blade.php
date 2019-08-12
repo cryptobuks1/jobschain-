@@ -82,14 +82,38 @@
                                                     </li>
 
                                                 </ul>
-                                                <li>
+											</li>
+											@if(!auth()->check())
+											<li>
+												<a href="{{route('login')}}"><span class=" btn btn-outline-primary btn-outline  rounded">{{__('app.in')}}</span></a>
+											</li>
 
+											<li><a href="{{route('register')}}"><span class="btn bg-primary link-hover-secondary  text-white rounded" >{{__('app.up')}}</span></a>
+											</li>
+											@else
+											
+											 <li class="has-children">
+                                                <a href="#">{{ auth()->user()->name }}</a>
+                                                <ul class="dropdown arrow-top">
+                                                    <li>
+														<a href="{{route('candidates.index')}}">Edit Profile</a>
+                                                    </li>
+													<li>
+														<a href="{{route('home')}}">Dashboard</a>
+                                                    </li>
+                                                    <li>
+														<a href="#" onclick="event.preventDefault();$('#logout').submit();"><span class=" btn btn-outline-primary btn-outline  rounded">Logout</span></a>
+                                                    </li>
 
-                                                    <a href="{{route('login')}}"><span class=" btn btn-outline-primary btn-outline  rounded">{{__('app.in')}}</span></a>
-                                                </li>
-
-                                                <li><a href="{{route('register')}}"><span class="btn bg-primary link-hover-secondary  text-white rounded" >{{__('app.up')}}</span></a>
-                                                </li>
+                                                </ul>
+											</li>
+											<li>
+												<a href="#" onclick="event.preventDefault();$('#logout').submit();"><span><i class="fa fa-power-off"></i></span></a>
+												<form id="logout" action="{{ route('logout') }}">
+													@csrf	
+												</form>
+											</li>
+											@endif
                                         </ul>
                                     </div>
                                 </nav>

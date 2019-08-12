@@ -2,15 +2,11 @@
 @section('title')  Jobs
 @endsection 
 @section('content')
-
 <div class="container">
-    <div class="d-flex justify-content-between pt-5  pb-4">
-        
-    </div>
+    <div class="d-flex justify-content-between pt-5  pb-4"></div>
 </div>
 <div class="site-section bg-light py-4">
     <div class="container mnh-500px">
-    
         <div class="mb-4">
             <div class="card header-bg">
                 <div class="card-body px-sm-4 pb-sm-4 ">
@@ -27,21 +23,18 @@
                     </form>
                 </div>
             </div>
-        </div>
-            
+        </div>   
         <div class="col-md-12 mb-5 mb-md-0">
             <h2 class="mb-5 h3">List of Jobs</h2>
             <div class="rounded border jobs-wrap">
-            
                 @foreach($jobs as $job)
 					<div class="job-item d-block d-md-flex align-items-center  border-bottom fulltime">
 						<div class="company-logo blank-logo text-center text-md-left pl-3"> 	@if(empty($job->company->logo))
-							<span class="btn btn-icon btn-soft-secondary rounded-circle"><span class="btn-icon__inner text-dark">Tx</span>
+							<span class="btn btn-icon btn-soft-secondary rounded-circle"><span class="btn-icon__inner text-dark">Tx</span></span>
 							@else
 							<img src="{{$job->company->logo}}" alt="Image" class="img-fluid mx-auto"> 
 							@endif
-						</div>
-							
+						</div>	
 						<div class="job-details h-100">
 							<div class="p-3 align-self-center">
 								<h3 class="d-none d-lg-block">{{$job->txid}}</h3>
@@ -57,16 +50,14 @@
 									@endif
 								</div>
 							</div>
-						</div>
-                            
+						</div>    
 						<div class="job-category align-self-right d-flex flex-row justify-content-end">
                             <div class="p-3">
                                 <a href="#viewDetails{{$job->id}}Modal" class="btn btn-outline btn-outline-primary"  data-toggle="modal">View Details</a>
                                 <a href="#apply{{$job->id}}Modal" class="btn btn-primary" data-toggle="modal">Apply</a>
                             </div>
 						</div>
-					</div>
-                        
+					</div>   
                     <!---View Details Modal-->
                     <div class="modal fade" id="viewDetails{{$job->id}}Modal" tabindex="-1" >
                         <div class="modal-dialog modal-dialog-md modal-dialog-centered">
@@ -76,27 +67,21 @@
                                     <h4 class="dialog-title">{{$job->address}}</h4>
                                     <label for="address" class="form-label">Txid: {{$job->txid}} </label>
                                     <form action="#">
-                                        <h4 class="dialog-title text-primary">{{$job->title}}</h4>
-                                        
+                                        <h4 class="dialog-title text-primary">{{$job->title}}</h4>    
                                         <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label for="address" class="form-label">Qualifications </label>
-                                                <input class="form-control" type="text" value="{{$job->qualifications}}" readonly>
-                                                
+                                                <input class="form-control" type="text" value="{{$job->qualifications}}" readonly>    
                                             </div><!-- .form -->
                                             </div><!-- .col -->
                                                 <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="amt" class="form-label">Salary </label>
-                                                    <input class="form-control" type="text" value="{{$job->salary}}" readonly>
-                                                    
-                                                </div>
-                                            
-                                             
+                                                    <input class="form-control" type="text" value="{{$job->salary}}" readonly>         
+                                                </div> 
                                             </div><!-- .col -->
                                         </div><!-- .row -->
-         
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -107,22 +92,16 @@
                                              <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="password" class="form-label">Expiry Date </label>
-                                                    <input class="form-control" type="text" value="{{$job->expiry}}" readonly>
-                                                    
+                                                    <input class="form-control" type="text" value="{{$job->expiry}}" readonly>     
                                                 </div>
                                             </div><!-- .col -->
                                         </div><!-- .row -->
-                                        
-                                       
-                                        
                                         <div class="row form-group">
                                             <div class="col-md-12"> <label for="address" class="form-label">Description</label></div>
                                             <div class="col-md-12 mb-3 mb-md-0">
-                                              <textarea name="description" class="form-control" id="" cols="30" rows="5" readonly>{{$job->description}}</textarea>
+                                              <textarea name="description" class="form-control" cols="30" rows="5" readonly>{{$job->description}}</textarea>
                                             </div>
-                                        </div>
-                                       
-                                         
+                                        </div>  
                                         <div class="my-2"></div>
                                         
                                     </form><!-- form -->
@@ -131,34 +110,27 @@
                         </div><!-- .modal-dialog -->
                     </div>
                     <!-- End View Details Modal-->
-                    
                      <!---apply Modal-->
                     <div class="modal fade" id="apply{{$job->id}}Modal" tabindex="-1" >
                         <div class="modal-dialog modal-dialog-md modal-dialog-centered">
                             <div class="modal-content">
                                 <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti fa fa-times"></em></a>
                                 <div class="dialog-body">
-                                    <h4 class="dialog-title">Apply for Job: {{$job->title}}</h4>
-                                    
+                                    <h4 class="dialog-title">Apply for Job: {{$job->title}}</h4> 
                                     <form action="#" method="post">
                                         <div class="form-group">
                                             <label for="address" class="form-label">Subject </label>
-                                            <input class=form-control type="text" name="subject">
-                                            
+                                            <input class=form-control type="text" name="subject">          
                                         </div><!-- .form -->
                                          <div class="form-group">
                                             <label for="address" class="form-label">Message </label>
-                                            <textarea name="message" class="form-control" id="" cols="30" rows="4">{{$job->message}}</textarea>
-                                            
+                                            <textarea name="message" class="form-control" cols="30" rows="4">{{$job->message}}</textarea> 
                                         </div><!-- .form -->
-                                       
                                        <div class="row form-group">
                                             <div class="col-md-12">
-                                             
                                               <input type="submit" value="Send Message" class="btn btn-primary  py-2 px-5">
                                             </div>
                                         </div>
-                                         
                                         <div class="my-2"></div>
                                     </form><!-- form -->
                                 </div>
@@ -166,15 +138,12 @@
                         </div><!-- .modal-dialog -->
                     </div>
                     <!-- End apply Modal-->
-
-				@endforeach
-                
+				@endforeach  
              </div>   
             <div class="col-md-12 text-center mt-5">
             {{$jobs->links()}}
             </div>
-        </div>
-            
+        </div>  
     </div>
 </div>
 @endsection

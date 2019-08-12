@@ -2,12 +2,12 @@
 
 
 return [
-	'Accounting / Finanace',
-	'Automotive Jobs',
-	'Construction / Facilities',
-	'Telecommunications',
-	'Healthcare',
-	'Design, Art & Multimedia',
-	'Transportation & Logistics',
-	'Restaurant / Food Service',
+	'accounting'=>'Accounting / Finanace',
+	'automoblie'=>'Automotive Jobs',
+	'construction'=>'Construction / Facilities',
+	'telecom'=>'Telecommunications',
+	'healthcare'=>'Healthcare',
+	'design'=>'Design, Art & Multimedia',
+	'transport'=>'Transportation & Logistics',
+	'restaurant'=>'Restaurant / Food Service',
 ];

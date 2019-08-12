@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Job;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
 class JobsController extends Controller
@@ -29,8 +30,8 @@ class JobsController extends Controller
      */
     public function create()
     {
-		
-        return view('jobs.create');
+        $countries = Country::all();
+        return view('jobs.create', compact('countries'));
     }
 
     /**
@@ -41,9 +42,9 @@ class JobsController extends Controller
      */
     public function store(Request $request, Job $job)
     {
-        
+        $country = Country::all()->where('iso_3166_3', $request->country)->first();
+        $job->country_id = $country->id;
         $job->country = $request->country;
-        $job->address = $request->address;
         $job->company_name = $request->company_name;
         $job->title = $request->title;
         $job->salary = $request->salary;
@@ -54,10 +55,8 @@ class JobsController extends Controller
         $job->expiry = $request->expiry;
         $job->country = $request->country;
         $job->save();
-        //$requestData = $request->all();
-        //Job::create($requestData);
-		return response()->json(['status' => 'SUCCESS','message' => __('app.action_ok',['item'=>'Job','action'=> __('app.added')])]);
-
+        
+		return redirect()->back()->with( ['success'=> __('app.action_ok',['item'=>'Job','action'=> __('app.added')])]);
 
     }
 
@@ -69,7 +68,7 @@ class JobsController extends Controller
      */
     public function show($id)
     {
-        // $job = Job::findOrFail($id);
+        $job = Job::findOrFail($id);
         return view('jobs.show', compact('job'));
     }
 
