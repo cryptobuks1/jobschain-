@@ -23,6 +23,7 @@ class Tx extends JsonResource
         return [
             'id'=>$this->id,
             'user_id'=> $this->user_id,
+            'is_mine'=> $this->from_user_id == auth()->user()->id,
             'balance_id'=> $this->balance_id,
             'symbol'=> $this->symbol,
             'txid'=> $this->txid,

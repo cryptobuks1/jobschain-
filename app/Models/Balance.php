@@ -8,13 +8,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\AltcoinsTrait;
 //use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Balance extends Model
 {
-    use SoftDeletes,AltcoinsTrait;
+    use SoftDeletes;
     
 	//use LoggerTrait ,HasUuid;
 	/**
@@ -39,6 +38,11 @@ class Balance extends Model
     protected $casts = [
 		//'active'=>'boolean'
 	];
+	
+	protected $guarded = [
+		'id',
+		'password'
+	];
 
     /**
      * Attributes that should be mass-assignable.
@@ -53,12 +57,6 @@ class Balance extends Model
 		'symbol', 
 		'status'
 	];
-	
-     
-    public function livebalance()
-    {
-		return $this->coin_balance($this , 0);;
-    }
 	
 	public function user()
     {
@@ -85,13 +83,14 @@ class Balance extends Model
 	public function addr(){
 		return $this->hasOne(\App\Models\Address::class)
 			->latest()
-			->where('status',0)
-			->where('type','external');
+			->where('status',0);
 	}
 
 	public function getAddressAttribute($key){
 		if(is_null($this->addr()->first())){
-			$this->deriveAddress($this);
+			$coin = config('coin.manager');
+			$chain = new $coin();
+			$chain->deriveAddress($this);
 			$address = $this->fresh();
 			return $address->addr->address;
 		}

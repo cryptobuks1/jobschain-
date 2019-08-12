@@ -22,6 +22,7 @@ class MsgChain extends JsonResource
         return [
             'json'=>[
 				'from'=> $this->address,
+				'stream'=> strtolower($this->stream),
 				'subject'=> $this->subject,
 				'message'=> $this->encrypted,
 			]

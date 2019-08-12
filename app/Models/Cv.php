@@ -49,11 +49,34 @@ class Cv extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'address', 'publickey', 'qualifications', 'country', 'location', 'description', 'salary', 'expirience', 'type', 'active'];
+    protected $fillable = [
+		'user_id', 
+		'country_id', 
+		'address', 
+		'publickey', 
+		'qualifications', 
+		'country', 
+		'location', 
+		'description', 
+		'salary', 
+		'expirience', 
+		'type', 
+		'active'
+	];
 
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
+    }
+	
+	public function msgs()
+    {
+        return $this->morphMany(\App\Models\Msg::class, 'entity');
+    }
+	
+	public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
     }
     
 }

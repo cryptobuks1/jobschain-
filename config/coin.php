@@ -27,5 +27,6 @@ return [
 		'p2pMagic' => env( 'P2P_MAGIC' ),
 		'SegwitBech32Prefix' =>env( 'SEGWIT_BENCH32_PREFIX',NULL ),
 		'signedMessagePrefix' => env( 'SIGNED_MESSAGE_PREFIX' ),
-	]
+	],
+	'manager'=> \App\Logic\CoinManager::class
 ];

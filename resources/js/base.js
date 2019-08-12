@@ -27,11 +27,13 @@ export default {
 
 		/**
 		 * Show an error message.
-		 vm.$modal.show('dialog', { text: '<i class="la la-times-circle tx-56 text-danger"></i><br> Freedom', classes: 'v--modal text-center', buttons: [{ title: 'Close' }] })
+		  })
 		 */
 		error(message) {
-			this.errorMessage = message;
-			this.$refs.errorModal.open();
+			vm.$modal.show('dialog', {
+				text: '<i class="la la-times-circle tx-56 text-danger"></i><br> '+message, classes: 'v--modal text-center', 
+				buttons: [{ title: 'Close' }]
+			})
 		},
 
 
@@ -39,8 +41,10 @@ export default {
 		 * Show a success message.
 		 */
 		success(message) {
-			this.successMessage = message;
-			this.$refs.successModal.open();
+			vm.$modal.show('dialog', {
+				text: '<i class="la la-check-circle tx-56 text-primary"></i><br> '+message, classes: 'v--modal text-center', 
+				buttons: [{ title: 'Close' }]
+			})
 		},
 
 

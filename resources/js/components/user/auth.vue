@@ -25,27 +25,27 @@
 						<div class="px-3">
 							<h2>{{$t('auth.change_password')}}</h2>
 							<form id="changepassform" class="no-border no-padding" accept-charset="UTF-8" method="post">
-								<div :class="{'text-danger':formErrors.current_password.length > 0,'text-success':form.current_password.length > 0 && !formErrors.current_password}" class="form-group">
+								<div :class="{'text-danger':formErrors.current_password.length > 0,'text-primary':form.current_password.length > 0 && !formErrors.current_password}" class="form-group">
 									<label class="form-label">{{$t('auth.current_password')}}</label>
 									<input v-model="form.current_password" type="password" class="form-control form-control-lg" name="current_password" id="current_password" :placeholder="$t('auth.current_password')">
 									<span v-if="formErrors.current_password.length > 0" class="help-block error-help-block">{{formErrors.current_password}}</span> </div>
-								<div :class="{'text-danger':formErrors.password.length > 0,'text-success':form.password.length > 0 && !formErrors.password}" class="form-group">
+								<div :class="{'text-danger':formErrors.password.length > 0,'text-primary':form.password.length > 0 && !formErrors.password}" class="form-group">
 									<label class="form-label">{{$t('auth.new_password')}}</label>
 									<input v-model="form.password" id="password" :placeholder="$t('auth.new_password')" required="required" name="password" type="password" value="" class="form-control form-control-lg" aria-required="true">
 									<span v-if="formErrors.password.length > 0" class="help-block error-help-block">{{formErrors.password}}</span> </div>
-								<div :class="{'text-danger':formErrors.password_confirmation.length > 0,'text-success':form.password_confirmation.length > 0 && !formErrors.password_confirmation}" class="form-group">
+								<div :class="{'text-danger':formErrors.password_confirmation.length > 0,'text-primary':form.password_confirmation.length > 0 && !formErrors.password_confirmation}" class="form-group">
 									<label class="form-label">{{$t('auth.ph_password_conf')}}</label>
 									<input v-model="form.password_confirmation" id="password-confirm" :placeholder="$t('auth.ph_password_conf')" required="required" name="password_confirmation" type="password" value="" class="form-control form-control-lg" aria-required="true">
 									<span v-if="formErrors.password_confirmation.length > 0" class="help-block error-help-block">{{formErrors.password_confirmation}}</span> </div>
 								<span class="password-validations">
-								<div v-html="$t('auth.one_lowercase')" :class="lowercase?'text-success':'text-danger'" v-show="form.password.length>0"  id="lowercase"> </div>
-								<div v-html="$t('auth.one_uppercase')" :class="uppercase?'text-success':'text-danger'" v-show="form.password.length>0" id="uppercase"> </div>
-								<div v-html="$t('auth.one_numerical')" :class="numeric?'text-success':'text-danger'" v-show="form.password.length>0" id="numeric"></div>
-								<div v-html="$t('auth.one_special')" :class="symbol?'text-success':'text-danger'" v-show="form.password.length>0" id="symbol"></div>
-								<div v-html="$t('auth.eight_min')" :class="long?'text-success':'text-danger'" v-show="form.password.length>0" id="length"></div>
+								<div v-html="$t('auth.one_lowercase')" :class="lowercase?'text-primary':'text-danger'" v-show="form.password.length>0"  id="lowercase"> </div>
+								<div v-html="$t('auth.one_uppercase')" :class="uppercase?'text-primary':'text-danger'" v-show="form.password.length>0" id="uppercase"> </div>
+								<div v-html="$t('auth.one_numerical')" :class="numeric?'text-primary':'text-danger'" v-show="form.password.length>0" id="numeric"></div>
+								<div v-html="$t('auth.one_special')" :class="symbol?'text-primary':'text-danger'" v-show="form.password.length>0" id="symbol"></div>
+								<div v-html="$t('auth.eight_min')" :class="long?'text-primary':'text-danger'" v-show="form.password.length>0" id="length"></div>
 								</span>
 								<div class='centered mt-3'>
-									<button @click.prevent="updatePassword()" type="submit" name="commit" class="btn btn-lg btn-success btn-block" id="password-submit"><i :class="isSaving?'fa-spin fa-refresh':'fa-check'" class="fa mr-2"></i> {{$t('auth.save_new_pass')}} </button>
+									<button @click.prevent="updatePassword()" type="submit" name="commit" class="btn btn-lg btn-primary btn-block" id="password-submit"><i :class="isSaving?'fa-spin fa-refresh':'fa-check'" class="fa mr-2"></i> {{$t('auth.save_new_pass')}} </button>
 								</div>
 							</form>
 						</div>
@@ -57,33 +57,33 @@
 							<ul>
 								<li class='my-2'>
 									<div class='d-flex flex-row'>
-										<div class="rounded border img-step"> <i :class="user.enable_twofa_email?'text-success':'text-danger'" class="fi fi-mail step-icon"></i> </div>
+										<div class="rounded border img-step"> <i :class="user.enable_twofa_email?'text-primary':'text-danger'" class="fi fi-mail step-icon"></i> </div>
 										<span>
-										<p :class="user.enable_twofa_email?'text-success':'text-danger'" class="mb-2 h5"><i :class="user.enable_twofa_email?'fa fa-check':'fa fa-times'"></i> &nbsp;
+										<p :class="user.enable_twofa_email?'text-primary':'text-danger'" class="mb-2 h5"><i :class="user.enable_twofa_email?'fa fa-check':'fa fa-times'"></i> &nbsp;
 											<template v-if="user.enable_twofa_email"> {{$t('auth.enabled')}}</template>
 											<template v-else> {{$t('auth.disabled')}}</template>
 										</p>
-										<a href="/authentication/toggle-twofa-email" :class="user.enable_twofa_email?'btn-danger':'btn-success'" class="btn btn-block btn-sm" @click.prevent="toggleEmail()">
+										<a href="/authentication/toggle-twofa-email" :class="user.enable_twofa_email?'btn-danger':'btn-primary'" class="btn btn-block btn-sm" @click.prevent="toggleEmail()">
 										<template v-if="user.enable_twofa_email">{{$t('auth.disable_email')}}</template>
 										<template v-else>{{$t('auth.enable_email')}}</template>
 										</a> </span> </div>
 								</li>
 								<li class='my-2'>
 									<div class='d-flex flex-row'>
-										<div class='rounded border img-step'> <i :class="user.enable_twofa_sms?'text-success':'text-danger'" class="fi fi-smartphone-1 step-icon"></i> </div>
+										<div class='rounded border img-step'> <i :class="user.enable_twofa_sms?'text-primary':'text-danger'" class="fi fi-smartphone-1 step-icon"></i> </div>
 										<span>
-										<p :class="user.enable_twofa_sms?'text-success':'text-danger'" class="mb-2 h5"><i :class="user.enable_twofa_sms?'fa fa-check':'fa fa-times'"></i> &nbsp;
+										<p :class="user.enable_twofa_sms?'text-primary':'text-danger'" class="mb-2 h5"><i :class="user.enable_twofa_sms?'fa fa-check':'fa fa-times'"></i> &nbsp;
 											<template v-if="user.enable_twofa_sms"> {{$t('auth.enabled')}}</template>
 											<template v-else> {{$t('auth.disabled')}}</template>
 										</p>
-										<a @click.prevent="toggleSMS()" :class="user.enable_twofa_sms?'btn-danger':'btn-success'" class="btn btn-block btn-sm">
+										<a @click.prevent="toggleSMS()" :class="user.enable_twofa_sms?'btn-danger':'btn-primary'" class="btn btn-block btn-sm">
 										<template v-if="user.enable_twofa_sms">{{$t('auth.disable_sms')}}</template>
 										<template v-else>{{$t('auth.enable_sms')}}</template>
 										</a> </span> </div>
 								</li>
 								<li class='my-2'>
 									<div class='d-flex flex-rows'>
-										<div class="rounded border img-step"> <i class="fi fi-laptop step-icon text-success"></i> </div>
+										<div class="rounded border img-step"> <i class="fi fi-laptop step-icon text-primary"></i> </div>
 										<div>
 											<div class="form-group">
 												<input type="text" v-model="code" name="code" id="code" class="form-control form-control-lg" :placeholder="$t('auth.mobile_auth_code')" autocomplete="off"/>
@@ -144,21 +144,21 @@
 						<label class="form-label">{{$t('auth.email')}}</label>
 						<input disabled v-model="user.email" type="text" class="form-control form-control-lg" name="email" id="email" :placeholder="$t('auth.email')">
 					</div>
-					<div :class="{'text-danger':uformErrors.name.length > 0,'text-success':uform.name.length > 0 && !uformErrors.name}" class="form-group">
+					<div :class="{'text-danger':uformErrors.name.length > 0,'text-primary':uform.name.length > 0 && !uformErrors.name}" class="form-group">
 						<label class="form-label">{{$t('auth.name')}}</label>
 						<input v-model="uform.name" type="text" class="form-control form-control-lg" name="name" id="current_password" :placeholder="$t('auth.name')">
 						<span v-if="uformErrors.name.length > 0" class="help-block error-help-block">{{uformErrors.name}}</span> </div>
-					<div :class="{'text-danger':uformErrors.first_name.length > 0,'text-success':uform.first_name.length > 0 && !uformErrors.first_name}" class="form-group">
+					<div :class="{'text-danger':uformErrors.first_name.length > 0,'text-primary':uform.first_name.length > 0 && !uformErrors.first_name}" class="form-group">
 						<label class="form-label">{{$t('auth.first_name')}}</label>
 						<input v-model="uform.first_name" id="password" :placeholder="$t('auth.first_name')" required="required" name="first_name" type="text" value="" class="form-control form-control-lg" aria-required="true">
 						<span v-if="uformErrors.first_name.length > 0" class="help-block error-help-block">{{uformErrors.first_name}}</span> </div>
-					<div :class="{'text-danger':uformErrors.last_name.length > 0,'text-success':uform.last_name.length > 0 && !uformErrors.last_name}" class="form-group">
+					<div :class="{'text-danger':uformErrors.last_name.length > 0,'text-primary':uform.last_name.length > 0 && !uformErrors.last_name}" class="form-group">
 						<label class="form-label">{{$t('auth.last_name')}}</label>
 						<input v-model="uform.last_name" id="password-confirm" :placeholder="$t('auth.last_name')" required="required" name="last_name" type="text" value="" class="form-control form-control-lg" aria-required="true">
 						<span v-if="uformErrors.last_name.length > 0" class="help-block error-help-block">{{uformErrors.last_name}}</span> </div>
 					
 					<div class='centered mt-3'>
-						<button @click.prevent="updateUser()" type="submit" name="commit" class="btn btn-lg btn-success btn-block" id="password-submit"><i :class="isSaving?'fa-spin fa-refresh':'fa-check'" class="fa mr-2"></i> {{$t('auth.update_user')}} </button>
+						<button @click.prevent="updateUser()" type="submit" name="commit" class="btn btn-lg btn-primary btn-block" id="password-submit"><i :class="isSaving?'fa-spin fa-refresh':'fa-check'" class="fa mr-2"></i> {{$t('auth.update_user')}} </button>
 					</div>
 				</form>
 			</div>

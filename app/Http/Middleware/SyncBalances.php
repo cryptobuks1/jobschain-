@@ -23,7 +23,6 @@ class SyncBalances
 				 $user->balance()->create([
 					 'symbol'=> env('SYMBOL'),
 					 'balance'=> '0.000',
-					 'deposit'=> '0.000',
 				 ]);
 			}
 		}

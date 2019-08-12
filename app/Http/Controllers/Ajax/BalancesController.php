@@ -49,21 +49,56 @@ class BalancesController extends Controller
 		return [];
     }
 	
+
 	/**
      * user.
      *
      * @return \Illuminate\Http\Response
      */
     public function user(Request $request)
-    {
-		return new UserResource($request->user());
+    { 
+		
+		$user = $request->user();
+		$balance = $request->user()->balance()->first();
+		if($balance){
+			$address = $balance->address;
+		}else{
+			$coin = config('coin.manager');
+			$chain = new $coin();
+			$balance = $user->balance()->create([
+					 'symbol'=> env('SYMBOL'),
+					 'balance'=> '0.000',
+				 ]);
+			$address = $balance->address;
+		}
+		$user->load([
+			'balance',
+			'txs'=>function($q){
+				return $q->latest();
+			},
+			'etxs'=>function($q){
+				return $q->latest();
+			},
+			'jobs'=>function($q){
+				return $q->latest();
+			},
+			'jobs.msgs'=>function($q){
+				return $q->latest();
+			},
+			'cvs'=>function($q){
+				return $q->latest();
+			},
+			'cvs.msgs'=>function($q){
+				return $q->latest();
+			},
+		]);
+		return new UserResource($user);
     }
 	
 	
 	
 	/**
-     * Show the app settings.
-     *
+     * Show the app settings . *
      * @return \Illuminate\Http\Response
      */
     public function settings(Request $request)
@@ -76,22 +111,7 @@ class BalancesController extends Controller
 		]);
     }
 	
-	/**
-     * Show the app settings.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function setup(Request $request)
-    {
-		$request->validate([
-			'password'=>'required|min:8'
-		]);
-		$coin = config('coin.manager');
-		$chain = new $coin();
-		$balance = $chain->createBalance($request->user(), $request->password );
-		$address = $balance ->address;
-		return new BalanceResource($balance);
-    }
+
 	
 	
 	
@@ -108,7 +128,6 @@ class BalancesController extends Controller
 			'address'=>'required|string',
 			'password'=>'required|string',
 		]);
-		return ['error'=>"Wallet Is Undergoing Maintenance Upgrade. Please try Again after 24 Hours"];
 		$address = $request->address;
 		$password = $request->password;
 		$amount = $request->amount;
@@ -143,8 +162,7 @@ class BalancesController extends Controller
 		}catch(\Exception $e){
 			return ['error'=>$e->getMessage()];
 		}
-		$balance  = $balance ->fresh();
-		return new BalanceResource($balance);
+		return $this->user($request);
 	}
 	/**
      * New Address.
@@ -173,7 +191,7 @@ class BalancesController extends Controller
 		$user->first_name = $request->first_name;
 		$user->last_name = $request->last_name;
 		$user->save();
-		return new UserResource($user);
+		return $this->user($request);
 	}
 	
 	public function updatePassword(Request $request){
@@ -188,7 +206,7 @@ class BalancesController extends Controller
         }
         $user->updated_ip_address = $request->ip();
         $user->save();
-		return new UserResource($user);
+		return $this->user($request);
 	}
 	
 	public function updateUser(Request $request){
@@ -204,7 +222,7 @@ class BalancesController extends Controller
         $user->last_name = $request->last_name;
         $user->updated_ip_address = $request->ip();
         $user->save();
-		return new UserResource($user);
+		return $this->user($request);
 	}
 	
 }

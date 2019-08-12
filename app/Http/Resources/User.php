@@ -33,15 +33,14 @@ class User extends JsonResource
             'nationality'=> $this->nationality,
             'activated'=> $this->activated,
             'status'=> $this->status,
-			'classicbalance'=> $this->classic->balance??0.0000,
-            'showclassic'=> isset($this->classic->balance) && $this->classic->status == 0,
             'created_at'=> $this->created_at,
 			'enable_twofa_sms' =>$this->enable_twofa_sms,
 			'enable_twofa_email'=>$this->enable_twofa_email,
 			'balance'=> new Balance($this->whenLoaded('balance')),
-			'classic'=> new Classic($this->whenLoaded('classic')),
             'etxs'=> Etx::collection($this->whenLoaded('etxs')),
             'txs'=> Tx::collection($this->whenLoaded('txs')),
+            'jobs'=> Job::collection($this->whenLoaded('jobs')),
+            'cvs'=> Cv::collection($this->whenLoaded('cvs')),
         ];
 		if(!$this->twofa_secret){
 			$secretKey = $this->getGoogle()->generateSecretKey();
