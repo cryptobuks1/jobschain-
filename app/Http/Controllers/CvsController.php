@@ -19,8 +19,12 @@ use Yajra\Datatables\Datatables;
 
 class CvsController extends Controller
 {
-	
-	
+      public function __construct()
+      {
+        $this->middleware('auth')->only(['create','store']);
+        parent::__construct();
+      }
+  
     /**
      * Display a listing of the resource. (uses ajax table)
      *
