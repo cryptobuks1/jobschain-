@@ -22,7 +22,7 @@ class CreateCvsTable extends Migration
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->string('address',40);
             $table->string('publickey');
-            $table->string('txid');
+            $table->string('txid')->nullable();       
 			$table->bigInteger('blocktime')->nullable();
 			$table->integer('confirmations')->default(0);
             $table->string('qualifications',160)->nullable();
@@ -30,6 +30,7 @@ class CreateCvsTable extends Migration
             $table->string('location',160)->nullable();
             $table->string('description',300);
             $table->string('salary');
+            $table->demcial('Fees',16,8)->nullable();
             $table->datetime('expiry')->nullable();
             $table->tinyInteger('expirience')->default(0);
             $table->enum('type', ["full_time","part_time","freelance"])->default('full_time');

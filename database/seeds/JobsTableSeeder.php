@@ -24,6 +24,8 @@ class JobsTableSeeder extends Seeder
 				'salary'=>'80,000-120,000$', 
 				'qualifications'=>'Master in Engineering', 
 				'description'=>'Determines operational feasibility by evaluating analysis, problem definition, requirements, solution development, and proposed solutions', 
+				'category'=>'Engineering', 
+				'expiry'=>now()->addDays(2), 
 				'expirience'=>2, 
 				'count'=>2, 
 				'status'=>'open', 
